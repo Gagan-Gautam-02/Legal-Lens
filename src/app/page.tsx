@@ -4,56 +4,106 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Header } from '@/components/app/header';
 import { Footer } from '@/components/app/footer';
-import { ArrowRight, LogIn, UserPlus } from 'lucide-react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+  ArrowRight,
+  BookOpenText,
+  FileQuestion,
+  KeyRound,
+  ShieldAlert,
+} from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 export default function Home() {
+  const features = [
+    {
+      icon: <BookOpenText className="h-8 w-8 text-primary" />,
+      title: 'AI-Powered Summary',
+      description: 'Get a quick, easy-to-understand summary of any Terms of Service document in a single paragraph.',
+    },
+    {
+      icon: <KeyRound className="h-8 w-8 text-primary" />,
+      title: 'Key Clause Identification',
+      description: 'Automatically finds and explains important clauses like Limitation of Liability, IP Rights, and User Conduct.',
+    },
+    {
+      icon: <ShieldAlert className="h-8 w-8 text-primary" />,
+      title: 'Risk & Gap Analysis',
+      description: 'Discovers potential risks, vague language, and missing clauses, with a focus on legal standards.',
+    },
+    {
+      icon: <FileQuestion className="h-8 w-8 text-primary" />,
+      title: 'Ask Specific Questions',
+      description: 'Get clear, simple answers to your specific questions about the document from our AI legal analyst.',
+    },
+  ];
+
   return (
     <div className="flex min-h-screen flex-col bg-background font-body text-foreground">
       <Header />
-      <main className="flex-1 container mx-auto w-full max-w-4xl px-4 py-8 flex items-center justify-center">
-        <div className="text-center space-y-8">
-          <h1 className="font-headline text-5xl font-bold tracking-tight">
-            Welcome to Legal Lens
-          </h1>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Your AI-powered assistant for analyzing Terms of Service documents. Understand complex legal language in minutes.
-          </p>
-          <div className="flex justify-center gap-4">
-            <Button asChild size="lg">
-              <Link href="/dashboard">
-                Access Platform <ArrowRight className="ml-2" />
-              </Link>
-            </Button>
+      <main className="flex-1 w-full">
+        {/* Hero Section */}
+        <section className="container mx-auto w-full max-w-4xl px-4 py-20 text-center">
+          <div className="space-y-6">
+            <h1 className="font-headline text-5xl font-bold tracking-tight">
+              Welcome to Legal Lens
+            </h1>
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+              Your AI-powered assistant for analyzing Terms of Service
+              documents. Understand complex legal language in minutes.
+            </p>
+            <div className="flex justify-center gap-4">
+              <Button asChild size="lg">
+                <Link href="/dashboard">
+                  Get Started <ArrowRight className="ml-2" />
+                </Link>
+              </Button>
+              <Button asChild size="lg" variant="outline">
+                <Link href="/login">Sign In</Link>
+              </Button>
+            </div>
           </div>
+        </section>
 
-          <div className="flex justify-center gap-4 pt-8">
-             <Card className="text-left w-64">
-                <CardHeader>
-                  <LogIn className="h-8 w-8 text-primary mb-2" />
-                  <CardTitle>Login</CardTitle>
-                  <CardDescription>Existing user? Log in to continue.</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <Button asChild variant="outline" className="w-full">
-                    <Link href="/login">Login</Link>
-                  </Button>
-                </CardContent>
-             </Card>
-             <Card className="text-left w-64">
-                <CardHeader>
-                  <UserPlus className="h-8 w-8 text-primary mb-2" />
-                  <CardTitle>Sign Up</CardTitle>
-                  <CardDescription>New here? Create an account to get started.</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <Button asChild variant="outline" className="w-full">
-                    <Link href="/signup">Sign Up</Link>
-                  </Button>
-                </CardContent>
-             </Card>
-          </div>
-        </div>
+        {/* Features Section */}
+        <section className="bg-secondary/50 py-20">
+            <div className="container mx-auto w-full max-w-5xl px-4">
+                 <div className="text-center mb-12">
+                    <h2 className="font-headline text-4xl font-bold">Features</h2>
+                    <p className="text-lg text-muted-foreground mt-2">Everything you need to decode legal documents.</p>
+                 </div>
+                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    {features.map((feature) => (
+                        <Card key={feature.title} className="text-left">
+                            <CardHeader className="flex flex-row items-center gap-4">
+                                {feature.icon}
+                                <CardTitle className="text-2xl font-semibold">{feature.title}</CardTitle>
+                            </CardHeader>
+                            <CardContent>
+                                <p className="text-muted-foreground">{feature.description}</p>
+                            </CardContent>
+                        </Card>
+                    ))}
+                 </div>
+            </div>
+        </section>
+
+        {/* Call to Action */}
+        <section className="container mx-auto w-full max-w-4xl px-4 py-20 text-center">
+             <div className="space-y-6">
+                <h2 className="font-headline text-4xl font-bold">Ready to Dive In?</h2>
+                <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+                   Create an account to start analyzing your first document for free.
+                </p>
+                <div className="flex justify-center">
+                    <Button asChild size="lg">
+                        <Link href="/signup">
+                            Sign Up Now <ArrowRight className="ml-2" />
+                        </Link>
+                    </Button>
+                </div>
+             </div>
+        </section>
+
       </main>
       <Footer />
     </div>
