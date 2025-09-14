@@ -68,7 +68,7 @@ export default function Home() {
                     <h2 className="font-headline text-4xl font-bold">Features</h2>
                     <p className="text-lg text-muted-foreground mt-2">Everything you need to decode legal documents.</p>
                  </div>
-                 <div className="grid grid-cols-1 gap-8">
+                 <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
                     {features.map((feature) => (
                         <Card key={feature.title} className="text-center w-full">
                             <CardHeader className="flex flex-col items-center gap-4">
