@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -12,6 +13,10 @@ import { Form, FormControl, FormField, FormItem, FormMessage } from '@/component
 import { useToast } from '@/hooks/use-toast';
 import { Header } from '@/components/app/header';
 import { Footer } from '@/components/app/footer';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '@/lib/firebase';
+import { Loader2 } from 'lucide-react';
+import { useState } from 'react';
 
 const loginSchema = z.object({
   email: z.string().email({ message: 'Invalid email address.' }),
@@ -20,6 +25,8 @@ const loginSchema = z.object({
 
 export default function LoginPage() {
   const { toast } = useToast();
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
@@ -29,13 +36,29 @@ export default function LoginPage() {
     },
   });
 
-  const onSubmit = (values: z.infer<typeof loginSchema>) => {
-    console.log('Login values:', values);
-    // Here you would typically handle the login logic, e.g., call an API
-    toast({
-      title: 'Login Submitted',
-      description: 'Login functionality is not implemented yet.',
-    });
+  const onSubmit = async (values: z.infer<typeof loginSchema>) => {
+    setIsLoading(true);
+    try {
+      await signInWithEmailAndPassword(auth, values.email, values.password);
+      toast({
+        title: 'Logged In',
+        description: 'Welcome back!',
+      });
+      router.push('/dashboard');
+    } catch (error: any) {
+      console.error('Login error:', error);
+       let errorMessage = 'An unexpected error occurred. Please try again.';
+      if (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password' || error.code === 'auth/invalid-credential') {
+        errorMessage = 'Invalid email or password. Please try again.';
+      }
+      toast({
+        variant: 'destructive',
+        title: 'Login Failed',
+        description: errorMessage,
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -59,7 +82,7 @@ export default function LoginPage() {
                     <FormItem>
                       <Label htmlFor="email">Email</Label>
                       <FormControl>
-                        <Input id="email" type="email" placeholder="m@example.com" {...field} />
+                        <Input id="email" type="email" placeholder="m@example.com" {...field} disabled={isLoading}/>
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -72,14 +95,14 @@ export default function LoginPage() {
                     <FormItem>
                        <Label htmlFor="password">Password</Label>
                       <FormControl>
-                        <Input id="password" type="password" {...field} />
+                        <Input id="password" type="password" {...field} disabled={isLoading}/>
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
-                <Button type="submit" className="w-full">
-                  Login
+                <Button type="submit" className="w-full" disabled={isLoading}>
+                  {isLoading ? <Loader2 className="animate-spin" /> : 'Login'}
                 </Button>
               </form>
             </Form>

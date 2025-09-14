@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -12,6 +13,10 @@ import { Form, FormControl, FormField, FormItem, FormMessage } from '@/component
 import { useToast } from '@/hooks/use-toast';
 import { Header } from '@/components/app/header';
 import { Footer } from '@/components/app/footer';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '@/lib/firebase';
+import { Loader2 } from 'lucide-react';
+import { useState } from 'react';
 
 const signupSchema = z.object({
   firstName: z.string().min(1, { message: 'First name is required.' }),
@@ -22,6 +27,8 @@ const signupSchema = z.object({
 
 export default function SignupPage() {
   const { toast } = useToast();
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<z.infer<typeof signupSchema>>({
     resolver: zodResolver(signupSchema),
@@ -33,13 +40,29 @@ export default function SignupPage() {
     },
   });
 
-  const onSubmit = (values: z.infer<typeof signupSchema>) => {
-    console.log('Signup values:', values);
-    // Here you would typically handle the signup logic, e.g., call an API
-    toast({
-      title: 'Signup Submitted',
-      description: 'Signup functionality is not implemented yet.',
-    });
+  const onSubmit = async (values: z.infer<typeof signupSchema>) => {
+    setIsLoading(true);
+    try {
+      await createUserWithEmailAndPassword(auth, values.email, values.password);
+      toast({
+        title: 'Account Created',
+        description: "You've been successfully signed up!",
+      });
+      router.push('/dashboard');
+    } catch (error: any) {
+      console.error('Signup error:', error);
+      let errorMessage = 'An unexpected error occurred. Please try again.';
+      if (error.code === 'auth/email-already-in-use') {
+        errorMessage = 'This email is already in use. Please try another email or log in.';
+      }
+      toast({
+        variant: 'destructive',
+        title: 'Signup Failed',
+        description: errorMessage,
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -64,7 +87,7 @@ export default function SignupPage() {
                       <FormItem>
                         <Label htmlFor="firstName">First Name</Label>
                         <FormControl>
-                          <Input id="firstName" placeholder="Max" {...field} />
+                          <Input id="firstName" placeholder="Max" {...field} disabled={isLoading} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -77,7 +100,7 @@ export default function SignupPage() {
                       <FormItem>
                         <Label htmlFor="lastName">Last Name</Label>
                         <FormControl>
-                          <Input id="lastName" placeholder="Robinson" {...field} />
+                          <Input id="lastName" placeholder="Robinson" {...field} disabled={isLoading} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -91,7 +114,7 @@ export default function SignupPage() {
                     <FormItem>
                       <Label htmlFor="email">Email</Label>
                       <FormControl>
-                        <Input id="email" type="email" placeholder="m@example.com" {...field} />
+                        <Input id="email" type="email" placeholder="m@example.com" {...field} disabled={isLoading} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -104,14 +127,14 @@ export default function SignupPage() {
                     <FormItem>
                       <Label htmlFor="password">Password</Label>
                       <FormControl>
-                        <Input id="password" type="password" {...field} />
+                        <Input id="password" type="password" {...field} disabled={isLoading} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
-                <Button type="submit" className="w-full">
-                  Create an account
+                <Button type="submit" className="w-full" disabled={isLoading}>
+                  {isLoading ? <Loader2 className="animate-spin" /> : 'Create an account'}
                 </Button>
               </form>
             </Form>

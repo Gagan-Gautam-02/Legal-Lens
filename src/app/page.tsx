@@ -14,14 +14,14 @@ export default function Home() {
       <main className="flex-1 container mx-auto w-full max-w-4xl px-4 py-8 flex items-center justify-center">
         <div className="text-center space-y-8">
           <h1 className="font-headline text-5xl font-bold tracking-tight">
-            Welcome to Your Platform
+            Welcome to Legal Lens
           </h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            This is a starting point for your application. From here, you can build out your amazing features.
+            Your AI-powered assistant for analyzing Terms of Service documents. Understand complex legal language in minutes.
           </p>
           <div className="flex justify-center gap-4">
             <Button asChild size="lg">
-              <Link href="/login">
+              <Link href="/dashboard">
                 Access Platform <ArrowRight className="ml-2" />
               </Link>
             </Button>
