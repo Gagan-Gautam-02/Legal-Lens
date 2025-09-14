@@ -69,24 +69,24 @@ export default function DashboardPage() {
   return (
     <div className="flex min-h-screen flex-col bg-background">
       <Header />
-      <main className="flex-1 w-full">
-        <div className="container mx-auto p-4">
-          <div className="flex justify-between items-center mb-4">
+      <main className="flex-1 w-full py-8">
+        <div className="container mx-auto max-w-4xl px-4">
+          <div className="flex justify-between items-center mb-6">
             <h1 className="text-3xl font-bold font-headline">Dashboard</h1>
             <Button variant="ghost" onClick={handleSignOut}>
               Sign Out <LogOut className="ml-2 h-4 w-4" />
             </Button>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 h-full">
-            {/* Left Column: ToS Input */}
+          <div className="flex flex-col gap-8">
+            {/* Top Section: ToS Input */}
             <div className="flex flex-col space-y-4">
               <h2 className="text-xl font-semibold">Paste your Terms of Service</h2>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
                 <Textarea
                   {...form.register('tos')}
                   placeholder="Paste the entire Terms of Service document here..."
-                  className="h-full min-h-[calc(100vh-20rem)] resize-none"
+                  className="min-h-[250px] resize-y"
                   disabled={isLoading}
                 />
                  {form.formState.errors.tos && (
@@ -107,10 +107,10 @@ export default function DashboardPage() {
               </form>
             </div>
 
-            {/* Right Column: Analysis Display */}
-            <div className="h-full">
+            {/* Bottom Section: Analysis Display */}
+            <div>
               {isLoading && !analysis && (
-                 <div className="flex flex-col items-center justify-center h-full rounded-lg border border-dashed p-8 text-center bg-card">
+                 <div className="flex flex-col items-center justify-center h-full rounded-lg border border-dashed p-8 text-center bg-card min-h-[300px]">
                   <Loader2 className="h-12 w-12 animate-spin text-primary mb-4" />
                   <p className="text-lg font-medium">Analyzing your document...</p>
                   <p className="text-muted-foreground">This may take a moment. Please wait.</p>
@@ -120,7 +120,7 @@ export default function DashboardPage() {
                 <AnalysisDisplay analysis={analysis} tosDocument={tosContent} />
               )}
               {!analysis && !isLoading && (
-                 <div className="flex flex-col items-center justify-center h-full rounded-lg border border-dashed p-8 text-center bg-card">
+                 <div className="flex flex-col items-center justify-center h-full rounded-lg border border-dashed p-8 text-center bg-card min-h-[300px]">
                   <div className="text-center">
                     <p className="text-lg font-medium">Analysis will appear here</p>
                     <p className="text-muted-foreground">Paste your document and click "Analyze" to get started.</p>

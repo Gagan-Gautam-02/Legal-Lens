@@ -18,8 +18,7 @@ export function AnalysisDisplay({ analysis, tosDocument }: AnalysisDisplayProps)
   const { summary, keyClauses, riskGaps } = analysis;
 
   return (
-    <ScrollArea className="h-full max-h-[calc(100vh-10rem)] pr-4">
-      <div className="space-y-6">
+    <div className="space-y-6">
         {/* Summary */}
         <Card>
           <CardHeader>
@@ -104,8 +103,7 @@ export function AnalysisDisplay({ analysis, tosDocument }: AnalysisDisplayProps)
             This tool provides an AI-generated analysis and does not constitute legal advice. The analysis may not be complete or accurate. Always consult with a qualified legal professional for any legal concerns.
           </AlertDescription>
         </Alert>
-      </div>
-    </ScrollArea>
+    </div>
   );
 }
 
