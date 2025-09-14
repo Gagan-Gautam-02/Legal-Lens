@@ -40,9 +40,9 @@ export default function Home() {
   return (
     <div className="flex min-h-screen flex-col bg-background font-body text-foreground">
       <Header />
-      <main className="flex-1 w-full">
+      <main className="flex-1 w-full flex flex-col">
         {/* Hero Section */}
-        <section className="container mx-auto w-full max-w-4xl px-4 py-20 text-center">
+        <section className="flex-1 flex flex-col items-center justify-center text-center p-4">
           <div className="space-y-6">
             <h1 className="font-headline text-5xl font-bold tracking-tight">
               Welcome to Legal Lens
@@ -51,21 +51,18 @@ export default function Home() {
               Your AI-powered assistant for analyzing Terms of Service
               documents. Understand complex legal language in minutes.
             </p>
-            <div className="flex justify-center gap-4">
+             <div className="flex justify-center gap-4">
               <Button asChild size="lg">
                 <Link href="/dashboard">
                   Get Started <ArrowRight className="ml-2" />
                 </Link>
-              </Button>
-              <Button asChild size="lg" variant="outline">
-                <Link href="/login">Sign In</Link>
               </Button>
             </div>
           </div>
         </section>
 
         {/* Features Section */}
-        <section className="bg-secondary/50 py-20">
+        <section id="features" className="bg-secondary/50 py-20">
             <div className="container mx-auto w-full max-w-4xl px-4">
                  <div className="text-center mb-12">
                     <h2 className="font-headline text-4xl font-bold">Features</h2>
