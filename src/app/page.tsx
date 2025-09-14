@@ -66,14 +66,14 @@ export default function Home() {
 
         {/* Features Section */}
         <section className="bg-secondary/50 py-20">
-            <div className="container mx-auto w-full max-w-5xl px-4">
+            <div className="container mx-auto w-full max-w-4xl px-4">
                  <div className="text-center mb-12">
                     <h2 className="font-headline text-4xl font-bold">Features</h2>
                     <p className="text-lg text-muted-foreground mt-2">Everything you need to decode legal documents.</p>
                  </div>
-                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                 <div className="grid grid-cols-1 gap-8">
                     {features.map((feature) => (
-                        <Card key={feature.title} className="text-left">
+                        <Card key={feature.title} className="text-left w-full">
                             <CardHeader className="flex flex-row items-center gap-4">
                                 {feature.icon}
                                 <CardTitle className="text-2xl font-semibold">{feature.title}</CardTitle>
