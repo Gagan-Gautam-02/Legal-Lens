@@ -73,8 +73,8 @@ export default function Home() {
                  </div>
                  <div className="grid grid-cols-1 gap-8">
                     {features.map((feature) => (
-                        <Card key={feature.title} className="text-left w-full">
-                            <CardHeader className="flex flex-row items-center gap-4">
+                        <Card key={feature.title} className="text-center w-full">
+                            <CardHeader className="flex flex-col items-center gap-4">
                                 {feature.icon}
                                 <CardTitle className="text-2xl font-semibold">{feature.title}</CardTitle>
                             </CardHeader>
