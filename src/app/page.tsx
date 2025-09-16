@@ -10,39 +10,64 @@ import {
   FileQuestion,
   KeyRound,
   ShieldAlert,
+  Users,
+  Briefcase,
+  BookCopy,
+  BarChart,
+  GraduationCap
 } from 'lucide-react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 
 export default function Home() {
-  const features = [
+  const whyUsFeatures = [
     {
-      icon: <BookOpenText className="h-8 w-8 text-primary" />,
-      title: 'AI-Powered Summary',
-      description: 'Get a quick, easy-to-understand summary of any Terms of Service document in a single paragraph.',
+      icon: <Briefcase className="h-8 w-8 text-primary" />,
+      title: 'Expert Analysis',
+      description: 'Our AI is trained by legal experts to provide you with accurate and insightful analysis.',
     },
     {
-      icon: <KeyRound className="h-8 w-8 text-primary" />,
-      title: 'Key Clause Identification',
-      description: 'Automatically finds and explains important clauses like Limitation of Liability, IP Rights, and User Conduct.',
+      icon: <BookCopy className="h-8 w-8 text-primary" />,
+      title: 'Comprehensive Coverage',
+      description: 'Analyze any Terms of Service document, no matter how complex or lengthy.',
     },
     {
-      icon: <ShieldAlert className="h-8 w-8 text-primary" />,
-      title: 'Risk & Gap Analysis',
-      description: 'Discovers potential risks, vague language, and missing clauses, with a focus on legal standards.',
-    },
-    {
-      icon: <FileQuestion className="h-8 w-8 text-primary" />,
-      title: 'Ask Specific Questions',
-      description: 'Get clear, simple answers to your specific questions about the document from our AI legal analyst.',
+      icon: <Users className="h-8 w-8 text-primary" />,
+      title: 'Community Driven',
+      description: 'Join a community of users and experts to share insights and get help.',
     },
   ];
+
+  const mainFeatures = [
+    {
+      title: 'AI-Powered Summary',
+      description: 'Get a quick, easy-to-understand summary of any Terms of Service document in a single paragraph.',
+      level: 'Beginner',
+      Icon: BookOpenText,
+      lessons: '1-Click',
+    },
+    {
+      title: 'Key Clause Identification',
+      description: 'Automatically finds and explains important clauses like Limitation of Liability, IP Rights, and User Conduct.',
+      level: 'Intermediate',
+      Icon: KeyRound,
+      lessons: '3 Clauses',
+    },
+    {
+      title: 'Risk & Gap Analysis',
+      description: 'Discovers potential risks, vague language, and missing clauses, with a focus on legal standards.',
+      level: 'Advanced',
+      Icon: ShieldAlert,
+      lessons: '5+ Checks',
+    },
+  ];
+
 
   return (
     <div className="flex min-h-screen flex-col bg-background font-body text-foreground">
       <Header />
       <main className="flex-1 w-full flex flex-col">
         {/* Hero Section */}
-        <section className="flex-1 flex flex-col items-center justify-center text-center p-4">
+        <section className="flex-1 flex flex-col items-center justify-center text-center p-4 min-h-screen">
           <div className="space-y-6">
             <h1 className="font-headline text-5xl font-bold tracking-tight">
               Welcome to Legal Lens
@@ -61,23 +86,50 @@ export default function Home() {
           </div>
         </section>
 
+        {/* Why Us Section */}
+        <section id="why-us" className="py-20">
+          <div className="container mx-auto w-full max-w-6xl px-4">
+            <div className="text-center mb-12">
+              <h2 className="font-headline text-4xl font-bold">Why use Legal Lens?</h2>
+            </div>
+            <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+              {whyUsFeatures.map((feature) => (
+                <div key={feature.title} className="text-center flex flex-col items-center">
+                  <div className="flex items-center justify-center h-16 w-16 rounded-full bg-secondary mb-4">
+                    {feature.icon}
+                  </div>
+                  <h3 className="text-2xl font-semibold mb-2">{feature.title}</h3>
+                  <p className="text-muted-foreground">{feature.description}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+
         {/* Features Section */}
-        <section id="features" className="bg-secondary/50 py-20">
-            <div className="container mx-auto w-full max-w-4xl px-4">
-                 <div className="text-center mb-12">
-                    <h2 className="font-headline text-4xl font-bold">Features</h2>
-                    <p className="text-lg text-muted-foreground mt-2">Everything you need to decode legal documents.</p>
-                 </div>
-                 <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
-                    {features.map((feature) => (
-                        <Card key={feature.title} className="text-center w-full">
-                            <CardHeader className="flex flex-col items-center gap-4">
-                                {feature.icon}
-                                <CardTitle className="text-2xl font-semibold">{feature.title}</CardTitle>
-                            </CardHeader>
-                            <CardContent>
+        <section id="features" className="py-20">
+            <div className="container mx-auto w-full max-w-6xl px-4">
+                 <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+                    {mainFeatures.map((feature, index) => (
+                        <Card key={feature.title} className="bg-card/50 backdrop-blur-sm border-white/10 flex flex-col">
+                            <CardContent className="p-6 flex-1">
+                                <h3 className="text-2xl font-semibold mb-4">{feature.title}</h3>
                                 <p className="text-muted-foreground">{feature.description}</p>
                             </CardContent>
+                            <CardFooter className="p-6 pt-0 flex justify-between items-center text-muted-foreground">
+                              <div className='flex items-center gap-2'>
+                                {feature.level === 'Beginner' && <BarChart className="w-4 h-4" />}
+                                {feature.level === 'Intermediate' && <BarChart className="w-4 h-4" />}
+                                {feature.level === 'Advanced' && <GraduationCap className="w-4 h-4" />}
+                                <span>{feature.level}</span>
+                              </div>
+                              <div className='flex items-center gap-2'>
+                                <BookCopy className="w-4 h-4" />
+                                <span>{feature.lessons}</span>
+                              </div>
+                            </CardFooter>
+                            {index === 0 && <div className="h-1 bg-primary w-full rounded-b-lg"></div>}
                         </Card>
                     ))}
                  </div>
