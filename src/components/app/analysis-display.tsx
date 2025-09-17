@@ -120,7 +120,11 @@ export function AnalysisDisplay({ analysis, tosDocument, userId, analysisId, con
                     </div>
                   </div>
                 )) : (
-                  <p className="text-center text-muted-foreground">No questions asked yet.</p>
+                  <div className="flex flex-col items-center justify-center h-full text-center text-muted-foreground p-8">
+                    <MessageSquare className="h-10 w-10 mb-4" />
+                    <p className="font-medium">No questions asked yet.</p>
+                    <p className="text-sm">Your conversation will appear here once you ask a question below.</p>
+                  </div>
                 )}
               </div>
             </ScrollArea>

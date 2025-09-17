@@ -29,15 +29,19 @@ export interface Conversation {
   id: string;
   question: string;
   answer: string;
-  createdAt: Date;
+  createdAt: any;
 }
 
 // Initialize Firebase Admin SDK
 if (!getApps().length) {
   try {
-    initializeApp({
-      credential: cert(JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT_KEY!))
-    });
+    if (process.env.FIREBASE_SERVICE_ACCOUNT_KEY) {
+      initializeApp({
+        credential: cert(JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT_KEY))
+      });
+    } else {
+        console.warn('FIREBASE_SERVICE_ACCOUNT_KEY is not set. Skipping Firebase Admin SDK initialization.');
+    }
   } catch (e) {
     console.error('Failed to initialize Firebase Admin SDK:', e);
   }
@@ -80,12 +84,17 @@ export async function answerQuestion(
 
   try {
     const answer = await answerQuestionsAboutToS({ tosDocument, question });
-    if (answer && userId && analysisId) {
-      await db.collection('users').doc(userId).collection('history').doc(analysisId).collection('conversations').add({
-        question,
-        answer: answer.answer,
-        createdAt: new Date(),
-      });
+    if (answer && userId && analysisId && db) {
+      try {
+        await db.collection('users').doc(userId).collection('history').doc(analysisId).collection('conversations').add({
+          question,
+          answer: answer.answer,
+          createdAt: new Date(),
+        });
+      } catch (dbError) {
+        console.error("Firestore write error:", dbError);
+        return { error: 'Could not save conversation to history due to a database error.' };
+      }
     }
     return { data: answer };
   } catch (e) {
@@ -95,6 +104,10 @@ export async function answerQuestion(
 }
 
 export async function getConversationHistory(userId: string, analysisId: string): Promise<Conversation[]> {
+    if (!db) {
+        console.error("Firestore is not initialized.");
+        return [];
+    }
   try {
     const snapshot = await db.collection('users').doc(userId).collection('history').doc(analysisId).collection('conversations').orderBy('createdAt', 'asc').get();
     return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Conversation));

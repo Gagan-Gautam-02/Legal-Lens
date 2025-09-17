@@ -22,7 +22,7 @@ import { usePdfToText } from '@/hooks/use-pdf-to-text';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { doc, setDoc, serverTimestamp, onSnapshot, collection } from 'firebase/firestore';
+import { doc, setDoc, serverTimestamp, onSnapshot, collection, query, orderBy } from 'firebase/firestore';
 
 
 const formSchema = z.object({
@@ -54,13 +54,12 @@ export default function DashboardPage() {
 
   useEffect(() => {
     if (user && analysisId) {
-      const q = collection(db, 'users', user.uid, 'history', analysisId, 'conversations');
+      const q = query(collection(db, 'users', user.uid, 'history', analysisId, 'conversations'), orderBy('createdAt', 'asc'));
       const unsubscribe = onSnapshot(q, (querySnapshot) => {
         const history: Conversation[] = [];
         querySnapshot.forEach((doc) => {
           history.push({ id: doc.id, ...doc.data() } as Conversation);
         });
-        history.sort((a, b) => a.createdAt.seconds - b.createdAt.seconds);
         setConversationHistory(history);
       });
       return () => unsubscribe();
@@ -100,11 +99,20 @@ export default function DashboardPage() {
       });
     } else if (result.data) {
       setAnalysis(result.data);
-      await setDoc(doc(db, 'users', user.uid, 'history', newAnalysisId), {
-        tos: values.tos,
-        summary: result.data.summary.summary,
-        createdAt: serverTimestamp()
-      });
+       try {
+        await setDoc(doc(db, 'users', user.uid, 'history', newAnalysisId), {
+          tos: values.tos,
+          summary: result.data.summary.summary,
+          createdAt: serverTimestamp()
+        });
+       } catch (dbError) {
+         console.error("Firestore write error:", dbError);
+         toast({
+           variant: 'destructive',
+           title: 'History Error',
+           description: 'Could not save analysis to your history.',
+         });
+       }
     }
     setIsLoading(false);
   };
