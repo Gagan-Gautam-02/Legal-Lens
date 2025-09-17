@@ -1,20 +1,25 @@
 'use client';
 
-import type { AnalysisResult } from '@/app/actions';
+import type { AnalysisResult, Conversation } from '@/app/actions';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { QuestionArea } from '@/components/app/question-area';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { BookOpenText, KeyRound, ShieldAlert, AlertTriangle, FileWarning, FileQuestion } from 'lucide-react';
+import { BookOpenText, KeyRound, ShieldAlert, AlertTriangle, FileWarning, FileQuestion, MessageSquare, Bot, User } from 'lucide-react';
+import { Avatar, AvatarFallback } from '../ui/avatar';
+
 
 interface AnalysisDisplayProps {
   analysis: AnalysisResult;
   tosDocument: string;
+  userId: string;
+  analysisId: string;
+  conversationHistory: Conversation[];
 }
 
-export function AnalysisDisplay({ analysis, tosDocument }: AnalysisDisplayProps) {
+export function AnalysisDisplay({ analysis, tosDocument, userId, analysisId, conversationHistory }: AnalysisDisplayProps) {
   const { summary, keyClauses, riskGaps } = analysis;
 
   return (
@@ -82,6 +87,46 @@ export function AnalysisDisplay({ analysis, tosDocument }: AnalysisDisplayProps)
           </CardContent>
         </Card>
 
+        {/* Conversation History */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2 font-headline">
+              <MessageSquare className="h-6 w-6" />
+              Conversation History
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <ScrollArea className="h-72 w-full pr-4">
+              <div className="space-y-6">
+                {conversationHistory.length > 0 ? conversationHistory.map((entry) => (
+                  <div key={entry.id}>
+                    <div className="flex items-start gap-3">
+                      <Avatar className="h-8 w-8">
+                        <AvatarFallback><User className="h-4 w-4" /></AvatarFallback>
+                      </Avatar>
+                      <div className="flex-1 rounded-lg border p-3 text-sm bg-background">
+                        <p className="font-semibold">You</p>
+                        <p className="text-foreground/80">{entry.question}</p>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-3 mt-4">
+                       <Avatar className="h-8 w-8">
+                        <AvatarFallback><Bot className="h-4 w-4" /></AvatarFallback>
+                      </Avatar>
+                       <div className="flex-1 rounded-lg border p-3 text-sm bg-secondary/50">
+                         <p className="font-semibold">Legal Lens AI</p>
+                         <p className="text-foreground/80">{entry.answer}</p>
+                       </div>
+                    </div>
+                  </div>
+                )) : (
+                  <p className="text-center text-muted-foreground">No questions asked yet.</p>
+                )}
+              </div>
+            </ScrollArea>
+          </CardContent>
+        </Card>
+
         {/* Question Area */}
         <Card>
           <CardHeader>
@@ -91,7 +136,7 @@ export function AnalysisDisplay({ analysis, tosDocument }: AnalysisDisplayProps)
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <QuestionArea tosDocument={tosDocument} />
+            <QuestionArea tosDocument={tosDocument} userId={userId} analysisId={analysisId} />
           </CardContent>
         </Card>
 

@@ -20,9 +20,11 @@ const formSchema = z.object({
 
 interface QuestionAreaProps {
   tosDocument: string;
+  userId: string;
+  analysisId: string;
 }
 
-export function QuestionArea({ tosDocument }: QuestionAreaProps) {
+export function QuestionArea({ tosDocument, userId, analysisId }: QuestionAreaProps) {
   const [answer, setAnswer] = useState('');
   const [isAnswering, setIsAnswering] = useState(false);
   const { toast } = useToast();
@@ -36,7 +38,7 @@ export function QuestionArea({ tosDocument }: QuestionAreaProps) {
     setIsAnswering(true);
     setAnswer('');
 
-    const result = await answerQuestion(tosDocument, values.question);
+    const result = await answerQuestion(tosDocument, values.question, userId, analysisId);
 
     if (result.error) {
       toast({
@@ -45,7 +47,8 @@ export function QuestionArea({ tosDocument }: QuestionAreaProps) {
         description: result.error,
       });
     } else if (result.data) {
-      setAnswer(result.data.answer);
+      // The answer is now saved to Firestore and will appear in the history
+      form.reset();
     }
     
     setIsAnswering(false);
@@ -85,14 +88,6 @@ export function QuestionArea({ tosDocument }: QuestionAreaProps) {
            <Loader2 className="h-4 w-4 animate-spin" />
            <span>Finding an answer...</span>
          </div>
-      )}
-
-      {answer && (
-        <Card className="bg-secondary/50">
-          <CardContent className="p-4">
-            <p className="text-foreground">{answer}</p>
-          </CardContent>
-        </Card>
       )}
     </div>
   );

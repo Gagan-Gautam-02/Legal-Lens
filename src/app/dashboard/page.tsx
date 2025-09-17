@@ -6,20 +6,24 @@ import { useRouter } from 'next/navigation';
 import { useForm, type UseFormReturn } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { onAuthStateChanged, signOut } from 'firebase/auth';
-import { auth } from '@/lib/firebase';
+import { onAuthStateChanged, signOut, type User } from 'firebase/auth';
+import { auth, db } from '@/lib/firebase';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
-import { analyzeTos, type AnalysisResult } from '@/app/actions';
-import { Loader2, LogOut, FileUp, FileText } from 'lucide-react';
+import { analyzeTos, type AnalysisResult, getConversationHistory, type Conversation } from '@/app/actions';
+import { Loader2, LogOut, FileUp, FileText, Bot, User as UserIcon } from 'lucide-react';
 import { AnalysisDisplay } from '@/components/app/analysis-display';
 import { Header } from '@/components/app/header';
 import { Footer } from '@/components/app/footer';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Input } from '@/components/ui/input';
 import { usePdfToText } from '@/hooks/use-pdf-to-text';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { doc, setDoc, serverTimestamp, onSnapshot, collection } from 'firebase/firestore';
+
 
 const formSchema = z.object({
   tos: z.string().min(100, {
@@ -28,19 +32,40 @@ const formSchema = z.object({
 });
 
 export default function DashboardPage() {
+  const [user, setUser] = useState<User | null>(null);
   const [analysis, setAnalysis] = useState<AnalysisResult | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [tosContent, setTosContent] = useState('');
+  const [analysisId, setAnalysisId] = useState<string | null>(null);
+  const [conversationHistory, setConversationHistory] = useState<Conversation[]>([]);
   const router = useRouter();
   const { toast } = useToast();
 
-  useState(() => {
-    onAuthStateChanged(auth, (user) => {
-      if (!user) {
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setUser(user);
+      } else {
         router.push('/login');
       }
     });
+    return () => unsubscribe();
   }, [router]);
+
+  useEffect(() => {
+    if (user && analysisId) {
+      const q = collection(db, 'users', user.uid, 'history', analysisId, 'conversations');
+      const unsubscribe = onSnapshot(q, (querySnapshot) => {
+        const history: Conversation[] = [];
+        querySnapshot.forEach((doc) => {
+          history.push({ id: doc.id, ...doc.data() } as Conversation);
+        });
+        history.sort((a, b) => a.createdAt.seconds - b.createdAt.seconds);
+        setConversationHistory(history);
+      });
+      return () => unsubscribe();
+    }
+  }, [user, analysisId]);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -53,9 +78,17 @@ export default function DashboardPage() {
   };
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    if (!user) {
+      toast({ variant: 'destructive', title: 'Not authenticated', description: 'You must be logged in to analyze a document.' });
+      return;
+    }
     setIsLoading(true);
     setAnalysis(null);
     setTosContent(values.tos);
+    setConversationHistory([]);
+
+    const newAnalysisId = doc(collection(db, 'users', user.uid, 'history')).id;
+    setAnalysisId(newAnalysisId);
 
     const result = await analyzeTos(values.tos);
     
@@ -67,6 +100,11 @@ export default function DashboardPage() {
       });
     } else if (result.data) {
       setAnalysis(result.data);
+      await setDoc(doc(db, 'users', user.uid, 'history', newAnalysisId), {
+        tos: values.tos,
+        summary: result.data.summary.summary,
+        createdAt: serverTimestamp()
+      });
     }
     setIsLoading(false);
   };
@@ -134,8 +172,14 @@ export default function DashboardPage() {
                   <p className="text-muted-foreground">This may take a moment. Please wait.</p>
                 </div>
               )}
-              {analysis && (
-                <AnalysisDisplay analysis={analysis} tosDocument={tosContent} />
+              {analysis && user && analysisId && (
+                <AnalysisDisplay 
+                  analysis={analysis} 
+                  tosDocument={tosContent} 
+                  userId={user.uid}
+                  analysisId={analysisId}
+                  conversationHistory={conversationHistory}
+                />
               )}
               {!analysis && !isLoading && (
                  <div className="flex flex-col items-center justify-center h-full rounded-lg border border-dashed p-8 text-center bg-card min-h-[300px]">
@@ -157,10 +201,22 @@ export default function DashboardPage() {
 function PdfUploader({ form, disabled }: { form: UseFormReturn<z.infer<typeof formSchema>>, disabled: boolean }) {
   const { extractText, text, isLoading, error } = usePdfToText();
   const [fileName, setFileName] = useState('');
+  const [isDragOver, setIsDragOver] = useState(false);
 
   const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
+      setFileName(file.name);
+      await extractText(file);
+    }
+  };
+
+  const handleDrop = async (event: React.DragEvent<HTMLLabelElement>) => {
+    event.preventDefault();
+    event.stopPropagation();
+    setIsDragOver(false);
+    const file = event.dataTransfer.files?.[0];
+    if (file && file.type === 'application/pdf') {
       setFileName(file.name);
       await extractText(file);
     }
@@ -173,14 +229,34 @@ function PdfUploader({ form, disabled }: { form: UseFormReturn<z.infer<typeof fo
   }, [text, form]);
 
   return (
-    <div className="space-y-4">
-      <Input
-        type="file"
-        accept="application/pdf"
-        onChange={handleFileChange}
-        disabled={disabled || isLoading}
-        className="file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary file:text-primary-foreground hover:file:bg-primary/90"
-      />
+     <div className="space-y-4">
+      <label
+        htmlFor="pdf-upload"
+        onDragEnter={() => setIsDragOver(true)}
+        onDragLeave={() => setIsDragOver(false)}
+        onDragOver={(e) => e.preventDefault()}
+        onDrop={handleDrop}
+        className={`relative block w-full rounded-lg border-2 border-dashed p-8 text-center cursor-pointer transition-colors ${
+          isDragOver ? 'border-primary bg-primary/10' : 'border-border hover:border-primary'
+        }`}
+      >
+        <FileUp className="mx-auto h-12 w-12 text-muted-foreground" />
+        <span className="mt-2 block text-sm font-semibold text-foreground">
+          Drag & Drop PDF here
+        </span>
+        <span className="mt-1 block text-xs text-muted-foreground">
+          or click to select a file
+        </span>
+        <Input
+          id="pdf-upload"
+          type="file"
+          accept="application/pdf"
+          onChange={handleFileChange}
+          disabled={disabled || isLoading}
+          className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+        />
+      </label>
+      
       {isLoading && (
         <div className="flex items-center space-x-2 text-muted-foreground">
           <Loader2 className="h-4 w-4 animate-spin" />
