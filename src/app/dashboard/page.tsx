@@ -155,7 +155,38 @@ export default function DashboardPage() {
       <Header />
       <main className="flex-1 w-full py-8">
         <div className="container mx-auto grid max-w-6xl grid-cols-1 gap-8 px-4 md:grid-cols-3">
-          {/* Left Column: Input and History */}
+          {/* Left Column: Analysis Display */}
+          <div className="md:col-span-2">
+            {isLoading && !analysis && (
+                <div className="flex flex-col items-center justify-center h-full rounded-lg border border-dashed p-8 text-center bg-card min-h-[300px]">
+                <Loader2 className="h-12 w-12 animate-spin text-primary mb-4" />
+                <p className="text-lg font-medium">Analyzing your document...</p>
+                <p className="text-muted-foreground">This may take a moment. Please wait.</p>
+              </div>
+            )}
+            {analysis && user && analysisId && (
+              <div>
+                <AnalysisDisplay 
+                  analysis={analysis} 
+                  tosDocument={tosContent} 
+                  userId={user.uid}
+                  analysisId={analysisId}
+                  conversationHistory={conversationHistory}
+                />
+              </div>
+            )}
+            {!analysis && !isLoading && (
+                <div className="flex flex-col items-center justify-center h-full rounded-lg border border-dashed p-8 text-center bg-card min-h-[300px]">
+                <div className="text-center">
+                  <h1 className="text-3xl font-bold font-headline mb-4">Welcome, {user?.displayName || 'User'}!</h1>
+                  <p className="text-lg font-medium">Get started by analyzing a document</p>
+                  <p className="text-muted-foreground">Paste your document or upload a PDF on the right and click "Analyze".</p>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Right Column: Input and History */}
           <div className="col-span-1 flex flex-col gap-8">
              <div className="flex justify-between items-center">
               <h1 className="text-3xl font-bold font-headline">Dashboard</h1>
@@ -219,7 +250,9 @@ export default function DashboardPage() {
                                 {analysisHistory.map((item) => (
                                     <div key={item.id} className="p-3 rounded-md border hover:bg-muted cursor-pointer" onClick={() => handleHistoryClick(item)}>
                                         <p className="text-sm font-medium truncate">{item.summary}</p>
-                                        <p className="text-xs text-muted-foreground">{formatDistanceToNow(item.createdAt.toDate())} ago</p>
+                                        {item.createdAt && (
+                                          <p className="text-xs text-muted-foreground">{formatDistanceToNow(item.createdAt.toDate())} ago</p>
+                                        )}
                                     </div>
                                 ))}
                             </div>
@@ -233,36 +266,6 @@ export default function DashboardPage() {
                     </ScrollArea>
                 </CardContent>
             </Card>
-          </div>
-
-          {/* Right Column: Analysis Display */}
-          <div className="md:col-span-2">
-            {isLoading && !analysis && (
-                <div className="flex flex-col items-center justify-center h-full rounded-lg border border-dashed p-8 text-center bg-card min-h-[300px] sticky top-24">
-                <Loader2 className="h-12 w-12 animate-spin text-primary mb-4" />
-                <p className="text-lg font-medium">Analyzing your document...</p>
-                <p className="text-muted-foreground">This may take a moment. Please wait.</p>
-              </div>
-            )}
-            {analysis && user && analysisId && (
-              <div className="sticky top-24">
-                <AnalysisDisplay 
-                  analysis={analysis} 
-                  tosDocument={tosContent} 
-                  userId={user.uid}
-                  analysisId={analysisId}
-                  conversationHistory={conversationHistory}
-                />
-              </div>
-            )}
-            {!analysis && !isLoading && (
-                <div className="flex flex-col items-center justify-center h-full rounded-lg border border-dashed p-8 text-center bg-card min-h-[300px] sticky top-24">
-                <div className="text-center">
-                  <p className="text-lg font-medium">Analysis will appear here</p>
-                  <p className="text-muted-foreground">Paste your document or upload a PDF and click "Analyze" to get started.</p>
-                </div>
-              </div>
-            )}
           </div>
         </div>
       </main>
