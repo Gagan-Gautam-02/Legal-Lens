@@ -11,8 +11,8 @@ import { auth, db } from '@/lib/firebase';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
-import { analyzeTos, type AnalysisResult, getConversationHistory, type Conversation } from '@/app/actions';
-import { Loader2, LogOut, FileUp, FileText, Bot, User as UserIcon } from 'lucide-react';
+import { analyzeTos, type AnalysisResult, getAnalysisHistory, type Conversation } from '@/app/actions';
+import { Loader2, LogOut, FileUp, FileText, Bot, User as UserIcon, History } from 'lucide-react';
 import { AnalysisDisplay } from '@/components/app/analysis-display';
 import { Header } from '@/components/app/header';
 import { Footer } from '@/components/app/footer';
@@ -22,7 +22,8 @@ import { usePdfToText } from '@/hooks/use-pdf-to-text';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { doc, setDoc, serverTimestamp, onSnapshot, collection, query, orderBy } from 'firebase/firestore';
+import { doc, setDoc, serverTimestamp, onSnapshot, collection, query, orderBy, Timestamp } from 'firebase/firestore';
+import { formatDistanceToNow } from 'date-fns';
 
 
 const formSchema = z.object({
@@ -31,6 +32,12 @@ const formSchema = z.object({
   }),
 });
 
+interface AnalysisHistoryItem {
+  id: string;
+  summary: string;
+  createdAt: Timestamp;
+}
+
 export default function DashboardPage() {
   const [user, setUser] = useState<User | null>(null);
   const [analysis, setAnalysis] = useState<AnalysisResult | null>(null);
@@ -38,6 +45,7 @@ export default function DashboardPage() {
   const [tosContent, setTosContent] = useState('');
   const [analysisId, setAnalysisId] = useState<string | null>(null);
   const [conversationHistory, setConversationHistory] = useState<Conversation[]>([]);
+  const [analysisHistory, setAnalysisHistory] = useState<AnalysisHistoryItem[]>([]);
   const router = useRouter();
   const { toast } = useToast();
 
@@ -51,6 +59,21 @@ export default function DashboardPage() {
     });
     return () => unsubscribe();
   }, [router]);
+  
+  useEffect(() => {
+    if (user) {
+      const q = query(collection(db, 'users', user.uid, 'history'), orderBy('createdAt', 'desc'));
+      const unsubscribe = onSnapshot(q, (querySnapshot) => {
+        const history: AnalysisHistoryItem[] = [];
+        querySnapshot.forEach((doc) => {
+          history.push({ id: doc.id, ...doc.data() } as AnalysisHistoryItem);
+        });
+        setAnalysisHistory(history);
+      });
+      return () => unsubscribe();
+    }
+  }, [user]);
+
 
   useEffect(() => {
     if (user && analysisId) {
@@ -116,20 +139,31 @@ export default function DashboardPage() {
     }
     setIsLoading(false);
   };
+  
+  const handleHistoryClick = (item: AnalysisHistoryItem) => {
+    // This is a simplified approach. In a real app, you might want to re-run analysis
+    // or fetch the full analysis data from Firestore.
+    form.setValue('tos', `Summary from analysis on ${item.createdAt.toDate().toLocaleDateString()}:\n${item.summary}`);
+    setAnalysis(null); // Clear current analysis
+    setAnalysisId(item.id);
+    setConversationHistory([]); // Clear conversation for new analysis
+    toast({ title: 'Loaded History', description: `Displaying conversation for analysis from ${formatDistanceToNow(item.createdAt.toDate())} ago.`});
+  }
 
   return (
     <div className="flex min-h-screen flex-col bg-background">
       <Header />
       <main className="flex-1 w-full py-8">
-        <div className="container mx-auto max-w-4xl px-4">
-          <div className="flex justify-between items-center mb-6">
-            <h1 className="text-3xl font-bold font-headline">Dashboard</h1>
-            <Button variant="ghost" onClick={handleSignOut}>
-              Sign Out <LogOut className="ml-2 h-4 w-4" />
-            </Button>
-          </div>
-
-          <div className="flex flex-col gap-8">
+        <div className="container mx-auto grid max-w-6xl grid-cols-1 gap-8 px-4 md:grid-cols-3">
+          {/* Left Column: Input and History */}
+          <div className="col-span-1 flex flex-col gap-8">
+             <div className="flex justify-between items-center">
+              <h1 className="text-3xl font-bold font-headline">Dashboard</h1>
+              <Button variant="ghost" onClick={handleSignOut}>
+                Sign Out <LogOut className="ml-2 h-4 w-4" />
+              </Button>
+            </div>
+            
             <Card>
               <CardContent className="p-6">
                 <Tabs defaultValue="paste" className="w-full">
@@ -143,7 +177,7 @@ export default function DashboardPage() {
                       <Textarea
                         {...form.register('tos')}
                         placeholder="Paste the entire Terms of Service document here..."
-                        className="min-h-[250px] resize-y"
+                        className="min-h-[200px] resize-y"
                         disabled={isLoading}
                       />
                     </TabsContent>
@@ -171,16 +205,47 @@ export default function DashboardPage() {
               </CardContent>
             </Card>
 
-            {/* Bottom Section: Analysis Display */}
-            <div>
-              {isLoading && !analysis && (
-                 <div className="flex flex-col items-center justify-center h-full rounded-lg border border-dashed p-8 text-center bg-card min-h-[300px]">
-                  <Loader2 className="h-12 w-12 animate-spin text-primary mb-4" />
-                  <p className="text-lg font-medium">Analyzing your document...</p>
-                  <p className="text-muted-foreground">This may take a moment. Please wait.</p>
-                </div>
-              )}
-              {analysis && user && analysisId && (
+            <Card>
+                <CardHeader>
+                    <CardTitle className="flex items-center gap-2 font-headline">
+                        <History className="h-6 w-6" />
+                        Analysis History
+                    </CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <ScrollArea className="h-60">
+                        {analysisHistory.length > 0 ? (
+                            <div className="space-y-2">
+                                {analysisHistory.map((item) => (
+                                    <div key={item.id} className="p-3 rounded-md border hover:bg-muted cursor-pointer" onClick={() => handleHistoryClick(item)}>
+                                        <p className="text-sm font-medium truncate">{item.summary}</p>
+                                        <p className="text-xs text-muted-foreground">{formatDistanceToNow(item.createdAt.toDate())} ago</p>
+                                    </div>
+                                ))}
+                            </div>
+                        ) : (
+                             <div className="flex flex-col items-center justify-center h-full text-center text-muted-foreground p-8">
+                                <History className="h-10 w-10 mb-4" />
+                                <p className="font-medium">No history yet.</p>
+                                <p className="text-sm">Your past analyses will appear here.</p>
+                            </div>
+                        )}
+                    </ScrollArea>
+                </CardContent>
+            </Card>
+          </div>
+
+          {/* Right Column: Analysis Display */}
+          <div className="md:col-span-2">
+            {isLoading && !analysis && (
+                <div className="flex flex-col items-center justify-center h-full rounded-lg border border-dashed p-8 text-center bg-card min-h-[300px] sticky top-24">
+                <Loader2 className="h-12 w-12 animate-spin text-primary mb-4" />
+                <p className="text-lg font-medium">Analyzing your document...</p>
+                <p className="text-muted-foreground">This may take a moment. Please wait.</p>
+              </div>
+            )}
+            {analysis && user && analysisId && (
+              <div className="sticky top-24">
                 <AnalysisDisplay 
                   analysis={analysis} 
                   tosDocument={tosContent} 
@@ -188,16 +253,16 @@ export default function DashboardPage() {
                   analysisId={analysisId}
                   conversationHistory={conversationHistory}
                 />
-              )}
-              {!analysis && !isLoading && (
-                 <div className="flex flex-col items-center justify-center h-full rounded-lg border border-dashed p-8 text-center bg-card min-h-[300px]">
-                  <div className="text-center">
-                    <p className="text-lg font-medium">Analysis will appear here</p>
-                    <p className="text-muted-foreground">Paste your document or upload a PDF and click "Analyze" to get started.</p>
-                  </div>
+              </div>
+            )}
+            {!analysis && !isLoading && (
+                <div className="flex flex-col items-center justify-center h-full rounded-lg border border-dashed p-8 text-center bg-card min-h-[300px] sticky top-24">
+                <div className="text-center">
+                  <p className="text-lg font-medium">Analysis will appear here</p>
+                  <p className="text-muted-foreground">Paste your document or upload a PDF and click "Analyze" to get started.</p>
                 </div>
-              )}
-            </div>
+              </div>
+            )}
           </div>
         </div>
       </main>
