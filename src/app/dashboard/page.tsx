@@ -3,6 +3,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { useForm, type UseFormReturn } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -12,7 +13,7 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 import { analyzeTos, type AnalysisResult, getAnalysisHistory, type Conversation } from '@/app/actions';
-import { Loader2, LogOut, FileUp, FileText, Bot, User as UserIcon, History } from 'lucide-react';
+import { Loader2, LogOut, FileUp, FileText, Bot, User as UserIcon, History, Briefcase } from 'lucide-react';
 import { AnalysisDisplay } from '@/components/app/analysis-display';
 import { Header } from '@/components/app/header';
 import { Footer } from '@/components/app/footer';
@@ -143,11 +144,15 @@ export default function DashboardPage() {
   const handleHistoryClick = (item: AnalysisHistoryItem) => {
     // This is a simplified approach. In a real app, you might want to re-run analysis
     // or fetch the full analysis data from Firestore.
-    form.setValue('tos', `Summary from analysis on ${item.createdAt.toDate().toLocaleDateString()}:\n${item.summary}`);
+    form.setValue('tos', `Summary from analysis on ${item.createdAt?.toDate().toLocaleDateString()}:\n${item.summary}`);
     setAnalysis(null); // Clear current analysis
     setAnalysisId(item.id);
     setConversationHistory([]); // Clear conversation for new analysis
-    toast({ title: 'Loaded History', description: `Displaying conversation for analysis from ${formatDistanceToNow(item.createdAt.toDate())} ago.`});
+    if (item.createdAt) {
+      toast({ title: 'Loaded History', description: `Displaying conversation for analysis from ${formatDistanceToNow(item.createdAt.toDate())} ago.`});
+    } else {
+      toast({ title: 'Loaded History', description: 'Displaying conversation for a past analysis.' });
+    }
   }
 
   return (
@@ -194,6 +199,23 @@ export default function DashboardPage() {
                 Sign Out <LogOut className="ml-2 h-4 w-4" />
               </Button>
             </div>
+
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2 font-headline">
+                  <Briefcase className="h-6 w-6" />
+                  Startup Legal Pathways
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-muted-foreground mb-4">Get AI-driven legal guidance for your new business idea.</p>
+                <Button asChild className="w-full">
+                  <Link href="/dashboard/legal-pathways">
+                    Go to Legal Pathways
+                  </Link>
+                </Button>
+              </CardContent>
+            </Card>
             
             <Card>
               <CardContent className="p-6">

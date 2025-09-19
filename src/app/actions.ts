@@ -16,6 +16,10 @@ import {
   summarizeTermsOfService,
   type SummarizeTermsOfServiceOutput,
 } from '@/ai/flows/summarize-tos';
+import {
+  suggestLegalPathways,
+  type SuggestLegalPathwaysOutput,
+} from '@/ai/flows/suggest-legal-pathways';
 import { getFirestore, Timestamp } from 'firebase-admin/firestore';
 import { getApps, initializeApp, cert, App } from 'firebase-admin/app';
 
@@ -31,6 +35,8 @@ export interface Conversation {
   answer: string;
   createdAt: any;
 }
+
+export type { SuggestLegalPathwaysOutput };
 
 function initializeFirebaseAdmin(): App | null {
   if (getApps().length > 0) {
@@ -181,4 +187,22 @@ export async function getAnalysisHistory(userId: string): Promise<any[]> {
         console.error('Error fetching analysis history:', error);
         return [];
     }
+}
+
+
+export async function getLegalPathways(
+  businessType: string,
+  businessDescription: string,
+): Promise<{ data?: SuggestLegalPathwaysOutput; error?: string }> {
+  if (!businessType || !businessDescription) {
+    return { error: 'Please provide both a business type and a description.' };
+  }
+
+  try {
+    const data = await suggestLegalPathways({ businessType, businessDescription });
+    return { data };
+  } catch (e) {
+    console.error(e);
+    return { error: 'An unexpected error occurred while generating legal pathways. Please try again later.' };
+  }
 }
