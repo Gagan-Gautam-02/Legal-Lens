@@ -142,8 +142,8 @@ export default function Home() {
                     {mainFeatures.map((feature, index) => (
                         <Card key={feature.title} className="flex flex-col bg-card/80">
                             <CardContent className="p-6 flex-1">
-                                <h3 className="text-2xl font-semibold mb-4">{feature.title}</h3>
-                                <p className="text-muted-foreground">{feature.description}</p>
+                                <h3 className="text-2xl font-semibold mb-4 text-white">{feature.title}</h3>
+                                <p className="text-primary-foreground/80">{feature.description}</p>
                             </CardContent>
                             <CardFooter className="p-6 pt-0 flex justify-between items-center text-muted-foreground">
                               
