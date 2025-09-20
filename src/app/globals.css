@@ -10,19 +10,19 @@
     --card-foreground: 220 10% 20%;
     --popover: 220 20% 100%;
     --popover-foreground: 220 10% 20%;
-    --primary: 170 42% 54%; /* Blue-Teal: #41B3A3 */
+    --primary: 338 75% 52%; /* Bright Fuchsia/Deep Pink: #E02B6D */
     --primary-foreground: 210 40% 98%;
-    --secondary: 252 21% 38%; /* Deep Purple: #594D74 */
+    --secondary: 241 45% 54%; /* Medium Blue/Violet: #5D5BBA */
     --secondary-foreground: 210 40% 98%;
     --muted: 220 15% 90%;
     --muted-foreground: 220 10% 45%;
-    --accent: 15 69% 65%; /* Warm Orange-Red: #E17B5B */
-    --accent-foreground: 0 0% 16%;
+    --accent: 351 83% 82%; /* Soft Rose Pink: #F8A8B4 */
+    --accent-foreground: 338 75% 22%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
     --border: 220 15% 88%;
-    --input: 220 15% 88%;
-    --ring: 170 42% 54%;
+    --input: 217 47% 70%; /* Sky Blue/Periwinkle: #8EADD5 */
+    --ring: 338 75% 52%;
     --radius: 0.5rem;
   }
 
@@ -33,19 +33,19 @@
     --card-foreground: 210 40% 98%;
     --popover: 224 71% 4%;
     --popover-foreground: 210 40% 98%;
-    --primary: 170 42% 54%; /* Blue-Teal: #41B3A3 */
+    --primary: 338 75% 52%; /* Bright Fuchsia/Deep Pink: #E02B6D */
     --primary-foreground: 224 71% 4%;
-    --secondary: 252 21% 38%; /* Deep Purple: #594D74 */
+    --secondary: 241 45% 54%; /* Medium Blue/Violet: #5D5BBA */
     --secondary-foreground: 210 40% 98%;
     --muted: 217 33% 17%;
     --muted-foreground: 215 20% 65%;
-    --accent: 15 69% 65%; /* Warm Orange-Red: #E17B5B */
+    --accent: 351 83% 82%; /* Soft Rose Pink: #F8A8B4 */
     --accent-foreground: 210 40% 98%;
     --destructive: 0 63% 31%;
     --destructive-foreground: 210 40% 98%;
     --border: 217 33% 17%;
     --input: 217 33% 17%;
-    --ring: 170 42% 54%;
+    --ring: 338 75% 52%;
   }
 }
 
@@ -55,5 +55,6 @@
   }
   body {
     @apply bg-background text-foreground;
+    background-image: linear-gradient(to right top, hsl(var(--background)), hsl(var(--secondary) / 0.1));
   }
 }
