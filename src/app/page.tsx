@@ -67,12 +67,16 @@ export default function Home() {
       <Header />
       <main className="flex-1 w-full flex flex-col">
         {/* Hero Section */}
-        <section className="flex-1 flex flex-col items-center justify-center text-center p-4 min-h-screen">
-          <div className="space-y-6">
-            <h1 className="font-headline text-5xl font-bold tracking-tight">
+        <section
+          className="relative flex-1 flex flex-col items-center justify-center text-center p-4 min-h-screen bg-cover bg-center bg-no-repeat"
+          style={{ backgroundImage: "url('/BGMain.jpg')" }}
+        >
+          <div className="absolute inset-0 bg-black/60 z-0"></div>
+          <div className="relative z-10 space-y-6">
+            <h1 className="font-headline text-5xl font-bold tracking-tight text-white">
               Welcome to Legal Lens
             </h1>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-xl text-primary-foreground/80 max-w-2xl mx-auto">
               Your AI-powered assistant for analyzing Terms of Service
               documents. Understand complex legal language in minutes.
             </p>
