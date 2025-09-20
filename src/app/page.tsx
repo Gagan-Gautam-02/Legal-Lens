@@ -127,10 +127,10 @@ export default function Home() {
         {/* Features Section */}
         <section 
           id="features" 
-          className="py-20 relative bg-cover bg-center bg-no-repeat"
+          className="py-20 relative bg-cover bg-center bg-no-repeat "
           style={{ backgroundImage: "url('/ImgBG.png')" }}
         >
-          <div className="absolute inset-0 bg-black/50"></div>
+          <div className="absolute inset-0 "></div>
           <div className="container relative z-10 mx-auto w-full max-w-6xl px-4">
                  <div className="text-center mb-12">
                     <h2 className="font-headline text-4xl font-bold text-white">Simplify Your Legal Documents</h2>
@@ -146,12 +146,7 @@ export default function Home() {
                                 <p className="text-muted-foreground">{feature.description}</p>
                             </CardContent>
                             <CardFooter className="p-6 pt-0 flex justify-between items-center text-muted-foreground">
-                              <div className='flex items-center gap-2'>
-                                {feature.level === 'Beginner' && <BarChart className="w-4 h-4" />}
-                                {feature.level === 'Intermediate' && <BarChart className="w-4 h-4" />}
-                                {feature.level === 'Advanced' && <GraduationCap className="w-4 h-4" />}
-                                <span>{feature.level}</span>
-                              </div>
+                              
                               <div className='flex items-center gap-2'>
                                 <BookCopy className="w-4 h-4" />
                                 <span>{feature.lessons}</span>
