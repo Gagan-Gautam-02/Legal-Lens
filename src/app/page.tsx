@@ -172,7 +172,7 @@ export default function Home() {
                   Get a personalized, step-by-step legal roadmap for your startup. Our AI provides clear guidance on everything from registration to compliance, tailored to your business in India.
                 </p>
                 <Button asChild size="lg">
-                  <Link href="/dashboard">
+                  <Link href="/dashboard/legal-pathways">
                     Explore Legal Pathways <ArrowRight className="ml-2" />
                   </Link>
                 </Button>
