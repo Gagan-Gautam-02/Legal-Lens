@@ -169,8 +169,8 @@ export default function LoginPage() {
                 <Image 
                     src="/LoginImg.png" 
                     alt="Illustration of a person logging into a secure system"
-                    width={300} 
-                    height={400} 
+                    width={400} 
+                    height={450} 
                     className="rounded-lg"
                     
                 />

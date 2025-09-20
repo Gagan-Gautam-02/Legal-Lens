@@ -216,7 +216,7 @@ export default function SignupPage() {
                     src="/SignupImg.png" 
                     alt="Illustration for user registration"
                     width={400} 
-                    height={400} 
+                    height={450} 
                     className="rounded-lg"
                 />
             </div>
