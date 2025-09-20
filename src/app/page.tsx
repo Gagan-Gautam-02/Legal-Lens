@@ -17,6 +17,8 @@ import {
   GraduationCap
 } from 'lucide-react';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import Image from 'next/image';
+
 
 export default function Home() {
   const whyUsFeatures = [
@@ -68,24 +70,35 @@ export default function Home() {
       <main className="flex-1 w-full flex flex-col">
         {/* Hero Section */}
         <section
-          className="relative flex-1 flex flex-col items-start justify-center text-left p-4 md:p-12 min-h-screen bg-cover bg-center bg-no-repeat"
+          className="relative flex-1 flex items-center justify-start p-4 md:p-12 min-h-screen bg-cover bg-center bg-no-repeat"
           style={{ backgroundImage: "url('/BGMain.jpg')" }}
         >
-          <div className="absolute inset-0 bg-black/50 z-0"></div>
-          <div className="relative z-10 space-y-6 max-w-2xl">
-            <h1 className="font-headline text-5xl font-bold tracking-tight text-white">
-              Welcome to Legal Lens
-            </h1>
-            <p className="text-xl text-primary-foreground/80">
-              Your AI-powered assistant for analyzing Terms of Service
-              documents. Understand complex legal language in minutes.
-            </p>
-             <div className="flex justify-start gap-4">
-              <Button asChild size="lg">
-                <Link href="/dashboard">
-                  Get Started <ArrowRight className="ml-2" />
-                </Link>
-              </Button>
+          <div className="absolute inset-0"></div>
+          <div className="relative z-10 container mx-auto flex items-center justify-between gap-12">
+            <div className="space-y-6 max-w-2xl">
+                <h1 className="font-headline text-5xl font-bold tracking-tight text-white">
+                Welcome to Legal Lens
+                </h1>
+                <p className="text-xl text-primary-foreground/80">
+                Your AI-powered assistant for analyzing Terms of Service
+                documents. Understand complex legal language in minutes.
+                </p>
+                <div className="flex justify-start gap-4">
+                <Button asChild size="lg">
+                    <Link href="/dashboard">
+                    Get Started <ArrowRight className="ml-2" />
+                    </Link>
+                </Button>
+                </div>
+            </div>
+            <div className="hidden lg:block">
+                <Image 
+                    src="/Important1.jpg" 
+                    alt="Legal document analysis" 
+                    width={450} 
+                    height={450} 
+                    className="rounded-3xl shadow-2xl"
+                />
             </div>
           </div>
         </section>
