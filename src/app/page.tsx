@@ -93,11 +93,11 @@ export default function Home() {
             </div>
             <div className="hidden lg:block">
                 <Image 
-                    src="/Important1.jpg" 
+                    src="/Important12.png" 
                     alt="Legal document analysis" 
                     width={450} 
-                    height={450} 
-                    className="rounded-3xl shadow-2xl"
+                    height={500} 
+                    className="rounded-3xl opacity-75 animate-[move_2s_ease-in-out_infinite]"
                 />
             </div>
           </div>
