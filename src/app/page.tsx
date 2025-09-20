@@ -31,9 +31,9 @@ export default function Home() {
       description: 'Analyze any Terms of Service document, no matter how complex or lengthy.',
     },
     {
-      icon: <Users className="h-8 w-8 text-primary" />,
-      title: 'Community Driven',
-      description: 'Join a community of users and experts to share insights and get help.',
+      icon: <GraduationCap className="h-8 w-8 text-primary" />,
+      title: 'Legal Guidance for Business',
+      description: 'Get tailored legal pathways and guidance for your startup or business in India.',
     },
   ];
 
