@@ -93,7 +93,7 @@ export default function Home() {
             </div>
             <div className="hidden lg:block">
                 <Image 
-                    src="/Important12.png" 
+                    src="/Important1.png" 
                     alt="Legal document analysis" 
                     width={450} 
                     height={500} 
@@ -135,7 +135,7 @@ export default function Home() {
                 </div>
                  <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
                     {mainFeatures.map((feature, index) => (
-                        <Card key={feature.title} className="bg-card/50 backdrop-blur-sm border-white/10 flex flex-col">
+                        <Card key={feature.title} className="flex flex-col">
                             <CardContent className="p-6 flex-1">
                                 <h3 className="text-2xl font-semibold mb-4">{feature.title}</h3>
                                 <p className="text-muted-foreground">{feature.description}</p>

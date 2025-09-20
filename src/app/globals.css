@@ -6,7 +6,7 @@
   :root {
     --background: 220 20% 97%; /* Light Gray */
     --foreground: 220 10% 20%;
-    --card: 220 20% 100%;
+    --card: 220 20% 100% / 0.5; /* Semi-transparent white */
     --card-foreground: 220 10% 20%;
     --popover: 220 20% 100%;
     --popover-foreground: 220 10% 20%;
@@ -20,7 +20,7 @@
     --accent-foreground: 338 75% 22%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
-    --border: 220 15% 88%;
+    --border: 220 15% 88% / 0.3; /* Transparent border */
     --input: 217 47% 70%; /* Sky Blue/Periwinkle: #8EADD5 */
     --ring: 338 75% 52%;
     --radius: 0.5rem;
@@ -29,7 +29,7 @@
   .dark {
     --background: 224 71% 4%;
     --foreground: 210 40% 98%;
-    --card: 220 10% 11%;
+    --card: 220 10% 11% / 0.5; /* Semi-transparent dark */
     --card-foreground: 210 40% 98%;
     --popover: 224 71% 4%;
     --popover-foreground: 210 40% 98%;
@@ -43,7 +43,7 @@
     --accent-foreground: 210 40% 98%;
     --destructive: 0 63% 31%;
     --destructive-foreground: 210 40% 98%;
-    --border: 217 33% 17%;
+    --border: 217 33% 17% / 0.3; /* Transparent border */
     --input: 217 33% 17%;
     --ring: 338 75% 52%;
   }
@@ -56,5 +56,11 @@
   body {
     @apply bg-background text-foreground;
     background-image: linear-gradient(to right top, hsl(var(--background)), hsl(var(--secondary) / 0.1));
+  }
+}
+
+@layer components {
+  .glass-card {
+    @apply bg-card/60 backdrop-blur-xl shadow-lg dark:shadow-black/20;
   }
 }
