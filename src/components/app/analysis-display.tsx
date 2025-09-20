@@ -25,10 +25,10 @@ export function AnalysisDisplay({ analysis, tosDocument, userId, analysisId, con
   return (
     <div className="space-y-6">
         {/* Summary */}
-        <Card>
+        <Card className="glass-card">
           <CardHeader>
             <CardTitle className="flex items-center gap-2 font-headline">
-              <BookOpenText className="h-6 w-6" />
+              <BookOpenText className="h-6 w-6 text-primary" />
               Overall Summary
             </CardTitle>
           </CardHeader>
@@ -38,10 +38,10 @@ export function AnalysisDisplay({ analysis, tosDocument, userId, analysisId, con
         </Card>
 
         {/* Key Clauses */}
-        <Card>
+        <Card className="glass-card">
           <CardHeader>
             <CardTitle className="flex items-center gap-2 font-headline">
-              <KeyRound className="h-6 w-6" />
+              <KeyRound className="h-6 w-6 text-primary" />
               Key Clause Breakdown
             </CardTitle>
           </CardHeader>
@@ -49,7 +49,7 @@ export function AnalysisDisplay({ analysis, tosDocument, userId, analysisId, con
             <Accordion type="single" collapsible className="w-full">
               {keyClauses.clauses.map((clause, index) => (
                 <AccordionItem value={`item-${index}`} key={index}>
-                  <AccordionTrigger className="font-semibold">{clause.clauseName}</AccordionTrigger>
+                  <AccordionTrigger className="font-semibold text-secondary">{clause.clauseName}</AccordionTrigger>
                   <AccordionContent className="text-foreground/80">{clause.explanation}</AccordionContent>
                 </AccordionItem>
               ))}
@@ -58,10 +58,10 @@ export function AnalysisDisplay({ analysis, tosDocument, userId, analysisId, con
         </Card>
 
         {/* Risk & Gap Analysis */}
-        <Card>
+        <Card className="glass-card">
           <CardHeader>
             <CardTitle className="flex items-center gap-2 font-headline">
-              <ShieldAlert className="h-6 w-6" />
+              <ShieldAlert className="h-6 w-6 text-primary" />
               Risk & Gap Analysis
             </CardTitle>
           </CardHeader>
@@ -77,10 +77,10 @@ export function AnalysisDisplay({ analysis, tosDocument, userId, analysisId, con
                   <AnalysisList items={riskGaps.risks} icon={<AlertTriangle className="h-4 w-4 text-destructive" />} />
                 </TabsContent>
                 <TabsContent value="ambiguous">
-                  <AnalysisList items={riskGaps.ambiguousClauses} icon={<FileWarning className="h-4 w-4 text-yellow-600" />} />
+                  <AnalysisList items={riskGaps.ambiguousClauses} icon={<FileWarning className="h-4 w-4 text-amber-500" />} />
                 </TabsContent>
                 <TabsContent value="missing">
-                  <AnalysisList items={riskGaps.missingClauses} icon={<FileQuestion className="h-4 w-4 text-blue-500" />} />
+                  <AnalysisList items={riskGaps.missingClauses} icon={<FileQuestion className="h-4 w-4 text-secondary" />} />
                 </TabsContent>
               </div>
             </Tabs>
@@ -88,10 +88,10 @@ export function AnalysisDisplay({ analysis, tosDocument, userId, analysisId, con
         </Card>
 
         {/* Conversation History */}
-        <Card>
+        <Card className="glass-card">
           <CardHeader>
             <CardTitle className="flex items-center gap-2 font-headline">
-              <MessageSquare className="h-6 w-6" />
+              <MessageSquare className="h-6 w-6 text-primary" />
               Conversation History
             </CardTitle>
           </CardHeader>
@@ -111,10 +111,10 @@ export function AnalysisDisplay({ analysis, tosDocument, userId, analysisId, con
                     </div>
                     <div className="flex items-start gap-3 mt-4">
                        <Avatar className="h-8 w-8">
-                        <AvatarFallback><Bot className="h-4 w-4" /></AvatarFallback>
+                        <AvatarFallback className="bg-secondary text-secondary-foreground"><Bot className="h-4 w-4" /></AvatarFallback>
                       </Avatar>
-                       <div className="flex-1 rounded-lg border p-3 text-sm bg-secondary/50">
-                         <p className="font-semibold">Legal Lens AI</p>
+                       <div className="flex-1 rounded-lg border p-3 text-sm bg-secondary/10">
+                         <p className="font-semibold text-secondary">Legal Lens AI</p>
                          <p className="text-foreground/80">{entry.answer}</p>
                        </div>
                     </div>
@@ -132,10 +132,10 @@ export function AnalysisDisplay({ analysis, tosDocument, userId, analysisId, con
         </Card>
 
         {/* Question Area */}
-        <Card>
+        <Card className="glass-card">
           <CardHeader>
             <CardTitle className="flex items-center gap-2 font-headline">
-              <FileQuestion className="h-6 w-6" />
+              <FileQuestion className="h-6 w-6 text-primary" />
               Ask a Question
             </CardTitle>
           </CardHeader>

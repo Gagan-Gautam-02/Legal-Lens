@@ -183,7 +183,7 @@ export default function DashboardPage() {
             {!analysis && !isLoading && (
                 <div className="flex flex-col items-center justify-center h-full rounded-lg border border-dashed p-8 text-center bg-card min-h-[300px]">
                 <div className="text-center">
-                  <h1 className="text-3xl font-bold font-headline mb-4">Welcome, {user?.displayName || 'User'}!</h1>
+                  <h1 className="text-3xl font-bold font-headline mb-4">Welcome, <span className="text-primary">{user?.displayName || 'User'}</span>!</h1>
                   <p className="text-lg font-medium">Get started by analyzing a document</p>
                   <p className="text-muted-foreground">Paste your document or upload a PDF on the right and click "Analyze".</p>
                 </div>
@@ -200,10 +200,10 @@ export default function DashboardPage() {
               </Button>
             </div>
 
-            <Card>
+            <Card className="glass-card">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2 font-headline">
-                  <Briefcase className="h-6 w-6" />
+                  <Briefcase className="h-6 w-6 text-primary" />
                   Startup Legal Pathways
                 </CardTitle>
               </CardHeader>
@@ -217,7 +217,7 @@ export default function DashboardPage() {
               </CardContent>
             </Card>
             
-            <Card>
+            <Card className="glass-card">
               <CardContent className="p-6">
                 <Tabs defaultValue="paste" className="w-full">
                   <TabsList className="grid w-full grid-cols-2">
@@ -226,7 +226,7 @@ export default function DashboardPage() {
                   </TabsList>
                   <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 mt-4">
                     <TabsContent value="paste">
-                      <h2 className="text-xl font-semibold mb-4">Paste your Terms of Service</h2>
+                      <h2 className="text-xl font-semibold mb-4 text-secondary">Paste your Terms of Service</h2>
                       <Textarea
                         {...form.register('tos')}
                         placeholder="Paste the entire Terms of Service document here..."
@@ -235,7 +235,7 @@ export default function DashboardPage() {
                       />
                     </TabsContent>
                     <TabsContent value="upload">
-                       <h2 className="text-xl font-semibold mb-4">Upload a PDF Document</h2>
+                       <h2 className="text-xl font-semibold mb-4 text-secondary">Upload a PDF Document</h2>
                        <PdfUploader form={form} disabled={isLoading} />
                     </TabsContent>
                     {form.formState.errors.tos && (
@@ -258,10 +258,10 @@ export default function DashboardPage() {
               </CardContent>
             </Card>
 
-            <Card>
+            <Card className="glass-card">
                 <CardHeader>
                     <CardTitle className="flex items-center gap-2 font-headline">
-                        <History className="h-6 w-6" />
+                        <History className="h-6 w-6 text-primary" />
                         Analysis History
                     </CardTitle>
                 </CardHeader>

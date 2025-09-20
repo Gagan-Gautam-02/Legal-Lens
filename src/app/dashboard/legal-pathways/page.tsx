@@ -58,10 +58,10 @@ export default function LegalPathwaysPage() {
       <Header />
       <main className="flex-1 w-full py-8">
         <div className="container mx-auto max-w-4xl px-4">
-          <Card className="mb-8">
+          <Card className="mb-8 glass-card">
             <CardHeader>
               <CardTitle className="text-3xl font-headline flex items-center gap-3">
-                <Briefcase className="h-8 w-8" />
+                <Briefcase className="h-8 w-8 text-primary" />
                 Legal Pathways for Startups
               </CardTitle>
               <CardDescription>
@@ -77,7 +77,7 @@ export default function LegalPathwaysPage() {
                       name="businessType"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Business Type</FormLabel>
+                          <FormLabel className="text-secondary">Business Type</FormLabel>
                           <FormControl>
                             <Input placeholder="e.g., E-commerce, SaaS, EdTech" {...field} disabled={isLoading} />
                           </FormControl>
@@ -91,7 +91,7 @@ export default function LegalPathwaysPage() {
                     name="businessDescription"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Business Description</FormLabel>
+                        <FormLabel className="text-secondary">Business Description</FormLabel>
                         <FormControl>
                           <Textarea
                             placeholder="Describe your business idea, target audience, and key activities."
@@ -129,9 +129,9 @@ export default function LegalPathwaysPage() {
 
           {pathway && (
             <div className="space-y-8">
-              <Card>
+              <Card className="glass-card">
                 <CardHeader>
-                  <CardTitle className="font-headline">Key Legal Requirements</CardTitle>
+                  <CardTitle className="font-headline text-primary">Key Legal Requirements</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <ul className="space-y-4">
@@ -139,7 +139,7 @@ export default function LegalPathwaysPage() {
                        <li key={index} className="flex items-start gap-4">
                          <ChevronRight className="h-5 w-5 text-primary mt-1 flex-shrink-0" />
                          <div>
-                            <h4 className="font-semibold">{req.title}</h4>
+                            <h4 className="font-semibold text-secondary">{req.title}</h4>
                             <p className="text-muted-foreground">{req.description}</p>
                          </div>
                        </li>
@@ -148,15 +148,15 @@ export default function LegalPathwaysPage() {
                 </CardContent>
               </Card>
 
-              <Card>
+              <Card className="glass-card">
                 <CardHeader>
-                  <CardTitle className="font-headline">Suggested Step-by-Step Pathway</CardTitle>
+                  <CardTitle className="font-headline text-primary">Suggested Step-by-Step Pathway</CardTitle>
                 </CardHeader>
                 <CardContent>
                     <Accordion type="single" collapsible className="w-full">
                         {pathway.suggestedSteps.map((step) => (
                             <AccordionItem value={`step-${step.step}`} key={step.step}>
-                                <AccordionTrigger>
+                                <AccordionTrigger className="text-secondary">
                                 <span className="text-primary font-bold mr-4">Step {step.step}</span>
                                 {step.title}
                                 </AccordionTrigger>
