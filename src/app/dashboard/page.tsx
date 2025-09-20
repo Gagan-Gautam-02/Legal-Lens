@@ -16,7 +16,6 @@ import { analyzeTos, type AnalysisResult, getAnalysisHistory, type Conversation 
 import { Loader2, LogOut, FileUp, FileText, Bot, User as UserIcon, History, Briefcase } from 'lucide-react';
 import { AnalysisDisplay } from '@/components/app/analysis-display';
 import { Header } from '@/components/app/header';
-import { Footer } from '@/components/app/footer';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Input } from '@/components/ui/input';
 import { usePdfToText } from '@/hooks/use-pdf-to-text';
@@ -291,7 +290,13 @@ export default function DashboardPage() {
           </div>
         </div>
       </main>
-      <Footer />
+      <footer className="border-t">
+        <div className="container mx-auto flex h-16 items-center justify-center px-4">
+            <p className="text-sm text-muted-foreground">
+            &copy; {new Date().getFullYear()} Legal Lens. All rights reserved.
+            </p>
+        </div>
+      </footer>
     </div>
   );
 }

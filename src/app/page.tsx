@@ -93,7 +93,7 @@ export default function Home() {
             </div>
             <div className="hidden lg:block">
                 <Image 
-                    src="/Important1.png" 
+                    src="/Important12.png" 
                     alt="Legal document analysis" 
                     width={450} 
                     height={500} 

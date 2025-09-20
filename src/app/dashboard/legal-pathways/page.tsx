@@ -10,7 +10,6 @@ import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Header } from '@/components/app/header';
-import { Footer } from '@/components/app/footer';
 import { getLegalPathways, type SuggestLegalPathwaysOutput } from '@/app/actions';
 import { useToast } from '@/hooks/use-toast';
 import { Loader2, Briefcase, ChevronRight } from 'lucide-react';
@@ -190,7 +189,13 @@ export default function LegalPathwaysPage() {
            )}
         </div>
       </main>
-      <Footer />
+       <footer className="border-t">
+        <div className="container mx-auto flex h-16 items-center justify-center px-4">
+            <p className="text-sm text-muted-foreground">
+            &copy; {new Date().getFullYear()} Legal Lens. All rights reserved.
+            </p>
+        </div>
+      </footer>
     </div>
   );
 }
