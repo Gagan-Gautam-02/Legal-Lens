@@ -68,19 +68,19 @@ export default function Home() {
       <main className="flex-1 w-full flex flex-col">
         {/* Hero Section */}
         <section
-          className="relative flex-1 flex flex-col items-center justify-center text-center p-4 min-h-screen bg-cover bg-center bg-no-repeat"
+          className="relative flex-1 flex flex-col items-start justify-center text-left p-4 md:p-12 min-h-screen bg-cover bg-center bg-no-repeat"
           style={{ backgroundImage: "url('/BGMain.jpg')" }}
         >
-          <div className="absolute inset-0 bg-black/60 z-0"></div>
-          <div className="relative z-10 space-y-6">
+          <div className="absolute inset-0 bg-black/50 z-0"></div>
+          <div className="relative z-10 space-y-6 max-w-2xl">
             <h1 className="font-headline text-5xl font-bold tracking-tight text-white">
               Welcome to Legal Lens
             </h1>
-            <p className="text-xl text-primary-foreground/80 max-w-2xl mx-auto">
+            <p className="text-xl text-primary-foreground/80">
               Your AI-powered assistant for analyzing Terms of Service
               documents. Understand complex legal language in minutes.
             </p>
-             <div className="flex justify-center gap-4">
+             <div className="flex justify-start gap-4">
               <Button asChild size="lg">
                 <Link href="/dashboard">
                   Get Started <ArrowRight className="ml-2" />
