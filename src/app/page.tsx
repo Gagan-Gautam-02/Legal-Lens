@@ -93,7 +93,7 @@ export default function Home() {
             </div>
             <div className="hidden lg:block">
                 <Image 
-                    src="/Important1.png" 
+                    src="/Important12.png" 
                     alt="Legal document analysis" 
                     width={450} 
                     height={500} 
@@ -125,17 +125,22 @@ export default function Home() {
 
 
         {/* Features Section */}
-        <section id="features" className="py-20">
-            <div className="container mx-auto w-full max-w-6xl px-4">
+        <section 
+          id="features" 
+          className="py-20 relative bg-cover bg-center bg-no-repeat"
+          style={{ backgroundImage: "url('/ImgBG.png')" }}
+        >
+          <div className="absolute inset-0 bg-black/50"></div>
+          <div className="container relative z-10 mx-auto w-full max-w-6xl px-4">
                  <div className="text-center mb-12">
-                    <h2 className="font-headline text-4xl font-bold">Simplify Your Legal Documents</h2>
-                    <p className="text-xl text-muted-foreground max-w-2xl mx-auto mt-4">
+                    <h2 className="font-headline text-4xl font-bold text-white">Simplify Your Legal Documents</h2>
+                    <p className="text-xl text-primary-foreground/80 max-w-2xl mx-auto mt-4">
                         From summaries to risk analysis, we've got you covered.
                     </p>
                 </div>
                  <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
                     {mainFeatures.map((feature, index) => (
-                        <Card key={feature.title} className="flex flex-col">
+                        <Card key={feature.title} className="flex flex-col bg-card/80">
                             <CardContent className="p-6 flex-1">
                                 <h3 className="text-2xl font-semibold mb-4">{feature.title}</h3>
                                 <p className="text-muted-foreground">{feature.description}</p>
