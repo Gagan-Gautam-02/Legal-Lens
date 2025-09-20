@@ -110,6 +110,12 @@ export default function Home() {
         {/* Features Section */}
         <section id="features" className="py-20">
             <div className="container mx-auto w-full max-w-6xl px-4">
+                 <div className="text-center mb-12">
+                    <h2 className="font-headline text-4xl font-bold">Simplify Your Legal Documents</h2>
+                    <p className="text-xl text-muted-foreground max-w-2xl mx-auto mt-4">
+                        From summaries to risk analysis, we've got you covered.
+                    </p>
+                </div>
                  <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
                     {mainFeatures.map((feature, index) => (
                         <Card key={feature.title} className="bg-card/50 backdrop-blur-sm border-white/10 flex flex-col">
@@ -135,6 +141,46 @@ export default function Home() {
                  </div>
             </div>
         </section>
+        
+        {/* Legal Pathway Section */}
+        <section id="legal-pathway" className="py-20">
+          <div className="container mx-auto w-full max-w-6xl px-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+              <div>
+                <div className="inline-block bg-primary text-primary-foreground rounded-full p-3 mb-4">
+                  <Briefcase className="h-8 w-8" />
+                </div>
+                <h2 className="font-headline text-4xl font-bold mb-4">Navigate Your Startup's Legal Journey</h2>
+                <p className="text-xl text-muted-foreground mb-6">
+                  Get a personalized, step-by-step legal roadmap for your startup. Our AI provides clear guidance on everything from registration to compliance, tailored to your business in India.
+                </p>
+                <Button asChild size="lg">
+                  <Link href="/dashboard">
+                    Explore Legal Pathways <ArrowRight className="ml-2" />
+                  </Link>
+                </Button>
+              </div>
+              <div className="bg-card p-8 rounded-lg shadow-lg">
+                <h4 className="font-semibold text-lg mb-4">Key stages covered:</h4>
+                <ul className="space-y-3 text-muted-foreground">
+                  <li className="flex items-center gap-3">
+                    <CheckCircle className="h-5 w-5 text-green-500" />
+                    <span>Foundational Stage (Registration, IP)</span>
+                  </li>
+                  <li className="flex items-center gap-3">
+                    <CheckCircle className="h-5 w-5 text-green-500" />
+                    <span>Growth Stage (Hiring, Data Privacy)</span>
+                  </li>
+                  <li className="flex items-center gap-3">
+                    <CheckCircle className="h-5 w-5 text-green-500" />
+                    <span>Scaling Stage (Fundraising, Expansion)</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
 
         {/* Call to Action */}
         <section className="container mx-auto w-full max-w-4xl px-4 py-20 text-center">
@@ -156,5 +202,26 @@ export default function Home() {
       </main>
       <Footer />
     </div>
+  );
+}
+
+// A helper component for the list items in the new section
+function CheckCircle(props: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+      <polyline points="22 4 12 14.01 9 11.01" />
+    </svg>
   );
 }
