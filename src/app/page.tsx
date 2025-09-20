@@ -198,24 +198,6 @@ export default function Home() {
           </div>
         </section>
 
-
-        {/* Call to Action */}
-        <section className="container mx-auto w-full max-w-4xl px-4 py-20 text-center">
-             <div className="space-y-6">
-                <h2 className="font-headline text-4xl font-bold">Ready to Dive In?</h2>
-                <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-                   Create an account to start analyzing your first document for free.
-                </p>
-                <div className="flex justify-center">
-                    <Button asChild size="lg">
-                        <Link href="/signup">
-                            Sign Up Now <ArrowRight className="ml-2" />
-                        </Link>
-                    </Button>
-                </div>
-             </div>
-        </section>
-
       </main>
       <Footer />
     </div>
