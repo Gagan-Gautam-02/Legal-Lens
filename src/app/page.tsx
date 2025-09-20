@@ -93,7 +93,7 @@ export default function Home() {
             </div>
             <div className="hidden lg:block">
                 <Image 
-                    src="/Important12.png" 
+                    src="/Important1.png" 
                     alt="Legal document analysis" 
                     width={450} 
                     height={500} 
@@ -133,8 +133,8 @@ export default function Home() {
           <div className="absolute inset-0 "></div>
           <div className="container relative z-10 mx-auto w-full max-w-6xl px-4">
                  <div className="text-center mb-12">
-                    <h2 className="font-headline text-4xl font-bold text-white">Simplify Your Legal Documents</h2>
-                    <p className="text-xl text-primary-foreground/80 max-w-2xl mx-auto mt-4">
+                    <h2 className="font-headline text-4xl font-bold text-secondary">Simplify Your Legal Documents</h2>
+                    <p className="text-xl text-white max-w-2xl mx-auto mt-4">
                         From summaries to risk analysis, we've got you covered.
                     </p>
                 </div>
