@@ -20,7 +20,7 @@
     --accent-foreground: 338 75% 22%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
-    --border: 220 15% 88% / 0.3; /* Transparent border */
+    --border: 351 83% 82% / 0.3; /* Transparent light pink border */
     --input: 217 47% 70%; /* Sky Blue/Periwinkle: #8EADD5 */
     --ring: 338 75% 52%;
     --radius: 0.5rem;
@@ -43,7 +43,7 @@
     --accent-foreground: 210 40% 98%;
     --destructive: 0 63% 31%;
     --destructive-foreground: 210 40% 98%;
-    --border: 217 33% 17% / 0.3; /* Transparent border */
+    --border: 351 83% 82% / 0.2; /* Transparent light pink border */
     --input: 217 33% 17%;
     --ring: 338 75% 52%;
   }
