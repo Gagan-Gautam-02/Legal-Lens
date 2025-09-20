@@ -25,7 +25,7 @@ export default function Home() {
     {
       icon: <Briefcase className="h-8 w-8 text-primary" />,
       title: 'Expert Analysis',
-      description: 'Our AI is trained by legal experts to provide you with accurate and insightful analysis.',
+      description: 'Our AI is meticulously trained to provide accurate and insightful analysis.',
     },
     {
       icon: <BookCopy className="h-8 w-8 text-primary" />,
