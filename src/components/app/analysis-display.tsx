@@ -9,6 +9,7 @@ import { QuestionArea } from '@/components/app/question-area';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { BookOpenText, KeyRound, ShieldAlert, AlertTriangle, FileWarning, FileQuestion, MessageSquare, Bot, User } from 'lucide-react';
 import { Avatar, AvatarFallback } from '../ui/avatar';
+import { RiskMeter } from './risk-meter';
 
 
 interface AnalysisDisplayProps {
@@ -24,6 +25,9 @@ export function AnalysisDisplay({ analysis, tosDocument, userId, analysisId, con
 
   return (
     <div className="space-y-6">
+        {/* Risk Meter */}
+        <RiskMeter riskGaps={riskGaps} />
+
         {/* Summary */}
         <Card className="glass-card">
           <CardHeader>
