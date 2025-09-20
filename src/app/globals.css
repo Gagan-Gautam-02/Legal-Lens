@@ -55,7 +55,7 @@
   }
   body {
     @apply bg-background text-foreground;
-    background-image: linear-gradient(to right top, hsl(var(--background)), hsl(var(--secondary) / 0.1));
+    background-image: linear-gradient(to right top, hsl(var(--primary) / 0.05), hsl(var(--secondary) / 0.1));
   }
 }
 
