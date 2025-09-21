@@ -38,6 +38,7 @@ interface AnalysisHistoryItem {
   createdAt: Timestamp;
 }
 
+
 export default function DashboardPage() {
   const [user, setUser] = useState<User | null>(null);
   const [analysis, setAnalysis] = useState<AnalysisResult | null>(null);
@@ -75,6 +76,7 @@ export default function DashboardPage() {
   }, [user]);
 
 
+  
   useEffect(() => {
     if (user && analysisId) {
       const q = query(collection(db, 'users', user.uid, 'history', analysisId, 'conversations'), orderBy('createdAt', 'asc'));
