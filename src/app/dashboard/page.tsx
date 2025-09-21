@@ -191,7 +191,7 @@ export default function DashboardPage() {
           </div>
 
           {/* Right Column: Input and History */}
-          <div className="col-span-1 flex flex-col gap-8">
+          <div className="col-span-1 flex flex-col gap-8 rounded-lg glass-card p-4">
              <div className="flex justify-between items-center">
               <h1 className="text-3xl font-bold font-headline">Dashboard</h1>
               <Button variant="ghost" onClick={handleSignOut}>
@@ -290,13 +290,6 @@ export default function DashboardPage() {
           </div>
         </div>
       </main>
-      <footer className="border-t">
-        <div className="container mx-auto flex h-16 items-center justify-center px-4">
-            <p className="text-sm text-muted-foreground">
-            &copy; {new Date().getFullYear()} VeriLaw. All rights reserved.
-            </p>
-        </div>
-      </footer>
     </div>
   );
 }
