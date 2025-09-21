@@ -7,7 +7,7 @@ import { Logo } from './logo';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { ArrowLeft, ArrowRight, LogOut } from 'lucide-react';
+import { ArrowLeft, ArrowRight, LogOut, Home } from 'lucide-react';
 
 export function Header() {
   const [user, setUser] = useState<User | null>(null);
@@ -26,16 +26,24 @@ export function Header() {
     router.push('/');
   };
   
-  const showBackButton = user && pathname !== '/dashboard';
+  const showGenericBackButton = user && pathname.startsWith('/dashboard/') && pathname !== '/dashboard';
+  const showDashboardHomeButton = user && pathname === '/dashboard';
+
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto flex h-16 max-w-7xl items-center justify-between px-4">
         <div className="flex items-center gap-4">
-            {showBackButton && (
+            {showGenericBackButton && (
                 <Button onClick={() => router.back()} size="sm" variant="outline">
                     <ArrowLeft className="mr-2" />
                     Back
+                </Button>
+            )}
+             {showDashboardHomeButton && (
+                <Button onClick={() => router.push('/')} size="sm" variant="outline">
+                    <Home className="mr-2" />
+                    Home
                 </Button>
             )}
             <Logo />
