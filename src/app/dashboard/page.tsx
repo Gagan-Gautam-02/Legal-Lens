@@ -38,6 +38,7 @@ interface AnalysisHistoryItem {
   createdAt: Timestamp;
 }
 
+
 export default function DashboardPage() {
   const [user, setUser] = useState<User | null>(null);
   const [analysis, setAnalysis] = useState<AnalysisResult | null>(null);
