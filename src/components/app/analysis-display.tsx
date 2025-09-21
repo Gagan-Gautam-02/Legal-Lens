@@ -118,7 +118,7 @@ export function AnalysisDisplay({ analysis, tosDocument, userId, analysisId, con
                         <AvatarFallback className="bg-secondary text-secondary-foreground"><Bot className="h-4 w-4" /></AvatarFallback>
                       </Avatar>
                        <div className="flex-1 rounded-lg border p-3 text-sm bg-secondary/10">
-                         <p className="font-semibold text-secondary">Legal Lens AI</p>
+                         <p className="font-semibold text-secondary">VeriLaw AI</p>
                          <p className="text-foreground/80">{entry.answer}</p>
                        </div>
                     </div>

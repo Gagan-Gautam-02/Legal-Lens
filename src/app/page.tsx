@@ -77,10 +77,10 @@ export default function Home() {
           <div className="relative z-10 container mx-auto flex items-center justify-between gap-12">
             <div className="space-y-6 max-w-2xl">
                 <h1 className="font-headline text-5xl font-bold tracking-tight text-white">
-                Welcome to Legal Lens
+                Welcome to VeriLaw
                 </h1>
                 <p className="text-xl text-primary-foreground/80">
-                Your AI-powered assistant for analyzing Terms of Service
+                Your AI-powered assistant for analyzing legal
                 documents. Understand complex legal language in minutes.
                 </p>
                 <div className="flex justify-start gap-4">
@@ -107,7 +107,7 @@ export default function Home() {
         <section id="why-us" className="py-20">
           <div className="container mx-auto w-full max-w-6xl px-4">
             <div className="text-center mb-12">
-              <h2 className="font-headline text-4xl font-bold">Why use Legal Lens?</h2>
+              <h2 className="font-headline text-4xl font-bold">Why use VeriLaw?</h2>
             </div>
             <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
               {whyUsFeatures.map((feature) => (

@@ -26,7 +26,7 @@ export function Footer() {
        </div>
       <div className="container mx-auto flex h-16 items-center justify-center px-4">
         <p className="text-sm text-muted-foreground">
-          &copy; {currentYear} Legal Lens. All rights reserved.
+          &copy; {currentYear} VeriLaw. All rights reserved.
         </p>
       </div>
     </footer>
