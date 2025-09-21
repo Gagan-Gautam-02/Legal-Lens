@@ -182,9 +182,9 @@ export default function DashboardPage() {
             {!analysis && !isLoading && (
                 <div className="flex flex-col items-center justify-center h-full rounded-lg border border-dashed p-8 text-center bg-card min-h-[300px]">
                 <div className="text-center">
-                  <h1 className="text-3xl font-bold font-headline mb-4">Welcome, <span className="text-primary">{user?.displayName || 'User'}</span>!</h1>
+                  <h1 className="text-3xl font-bold font-headline mb-4 text-pink-500">Welcome!</h1>
                   <p className="text-lg font-medium">Get started by analyzing a document</p>
-                  <p className="text-muted-foreground">Paste your document or upload a PDF on the right and click "Analyze".</p>
+                  <p className="text-muted-foreground">Paste your document or upload a PDF.</p>
                 </div>
               </div>
             )}

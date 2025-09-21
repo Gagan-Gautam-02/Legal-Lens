@@ -20,6 +20,10 @@ import {
   suggestLegalPathways,
   type SuggestLegalPathwaysOutput,
 } from '@/ai/flows/suggest-legal-pathways';
+import {
+  answerLegalPathwayQuestion,
+  type AnswerLegalPathwayQuestionOutput,
+} from '@/ai/flows/answer-legal-pathways-questions';
 import { getFirestore, Timestamp } from 'firebase-admin/firestore';
 import { getApps, initializeApp, cert, App } from 'firebase-admin/app';
 
@@ -36,7 +40,7 @@ export interface Conversation {
   createdAt: any;
 }
 
-export type { SuggestLegalPathwaysOutput };
+export type { SuggestLegalPathwaysOutput, AnswerLegalPathwayQuestionOutput };
 
 function initializeFirebaseAdmin(): App | null {
   if (getApps().length > 0) {
@@ -205,4 +209,68 @@ export async function getLegalPathways(
     console.error(e);
     return { error: 'An unexpected error occurred while generating legal pathways. Please try again later.' };
   }
+}
+
+export async function saveLegalPathway(
+  userId: string,
+  businessType: string,
+  businessDescription: string,
+  pathway: SuggestLegalPathwaysOutput
+): Promise<{ pathwayId?: string, error?: string }> {
+  const db = await getDb();
+  if (!db) {
+    return { error: "Database not initialized." };
+  }
+
+  try {
+    const pathwayRef = db.collection('users').doc(userId).collection('legalPathways').doc();
+    await pathwayRef.set({
+      businessType,
+      businessDescription,
+      pathway,
+      createdAt: Timestamp.now()
+    });
+    return { pathwayId: pathwayRef.id };
+  } catch (e) {
+    console.error("Error saving legal pathway:", e);
+    return { error: "Could not save the legal pathway to your history." };
+  }
+}
+
+export async function askLegalPathwayQuestion(
+    userId: string,
+    pathwayId: string,
+    businessType: string,
+    businessDescription: string,
+    legalPathway: string,
+    question: string,
+): Promise<{ data?: AnswerLegalPathwayQuestionOutput; error?: string }> {
+    if (!question || question.trim().length === 0) {
+        return { error: 'Please enter a question.' };
+    }
+
+    const db = await getDb();
+    if (!db) {
+        return { error: "Database not initialized." };
+    }
+
+    try {
+        const answer = await answerLegalPathwayQuestion({
+            businessType,
+            businessDescription,
+            legalPathway,
+            question
+        });
+
+        await db.collection('users').doc(userId).collection('legalPathways').doc(pathwayId).collection('conversations').add({
+            question,
+            answer: answer.answer,
+            createdAt: Timestamp.now()
+        });
+
+        return { data: answer };
+    } catch (e) {
+        console.error(e);
+        return { error: 'An error occurred while getting the answer. Please try again.' };
+    }
 }
