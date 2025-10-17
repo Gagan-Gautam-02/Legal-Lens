@@ -51,17 +51,18 @@ function initializeFirebaseAdmin(): App | null {
 
   if (serviceAccountKey) {
     try {
+      console.log('Found FIREBASE_SERVICE_ACCOUNT_KEY. Initializing Firebase Admin SDK...');
       const serviceAccount = JSON.parse(serviceAccountKey);
       return initializeApp({
         credential: cert(serviceAccount),
       });
     } catch (e) {
-      console.error('Failed to parse FIREBASE_SERVICE_ACCOUNT_KEY:', e);
+      console.error('Failed to parse FIREBASE_SERVICE_ACCOUNT_KEY. Make sure it is a valid JSON string.', e);
       return null;
     }
   } else {
     console.warn(
-      'FIREBASE_SERVICE_ACCOUNT_KEY is not set. Skipping Firebase Admin SDK initialization.'
+      'CRITICAL: FIREBASE_SERVICE_ACCOUNT_KEY environment variable is not set. Firestore database operations will fail.'
     );
     return null;
   }
