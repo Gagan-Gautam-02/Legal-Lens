@@ -57,6 +57,12 @@
     @apply bg-background text-foreground;
     background-image: linear-gradient(to right top, hsl(var(--primary) / 0.05), hsl(var(--secondary) / 0.1));
   }
+  .dark body {
+    background-image: url('/BackDarkPageSec01.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
 }
 
 @layer components {
