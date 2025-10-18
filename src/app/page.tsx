@@ -127,8 +127,7 @@ export default function Home() {
         {/* Features Section */}
         <section 
           id="features" 
-          className="py-20 relative bg-cover bg-center bg-no-repeat "
-          style={{ backgroundImage: "url('/ImgBG.png')" }}
+          className="py-20 relative bg-cover bg-center bg-no-repeat bg-[url('/ImgBG.png')] dark:bg-[url('/BackDarkPageSec01.png')]"
         >
           <div className="absolute inset-0 "></div>
           <div className="container relative z-10 mx-auto w-full max-w-6xl px-4">
