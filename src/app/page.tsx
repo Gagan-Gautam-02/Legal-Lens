@@ -71,7 +71,7 @@ export default function Home() {
       <main className="flex-1 w-full flex flex-col">
         {/* Hero Section */}
         <section
-          className="relative flex-1 flex items-center justify-start p-4 md:p-12 min-h-screen bg-cover bg-center bg-no-repeat bg-[url('/BGMain.jpg')] dark:bg-[url('/BackDark02.png')]"
+          className="relative flex-1 flex items-center justify-start p-4 md:p-12 min-h-screen bg-cover bg-center bg-no-repeat bg-[url('/BGMain.jpg')] dark:bg-[url('/BackDark0101.png')]"
         >
           <div className="absolute inset-0"></div>
           <div className="relative z-10 container mx-auto flex items-center justify-between gap-12">
