@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { ArrowLeft, ArrowRight, LogOut, Home } from 'lucide-react';
+import { ThemeToggle } from './theme-toggle';
 
 export function Header() {
   const [user, setUser] = useState<User | null>(null);
@@ -68,6 +69,7 @@ export function Header() {
               </Button>
             </>
           )}
+          <ThemeToggle />
         </div>
       </div>
     </header>
