@@ -169,8 +169,8 @@ export default function DashboardPage() {
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {
-        const data = docSnap.data() as AnalysisHistoryItem;
-        setSelectedHistory(data);
+        const data = docSnap.data();
+        setSelectedHistory({ id: item.id, ...data } as AnalysisHistoryItem);
         
         if (item.createdAt) {
           toast({ title: 'Loaded History', description: `Displaying analysis from ${formatDistanceToNow(item.createdAt.toDate())} ago.`});
