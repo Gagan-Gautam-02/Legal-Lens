@@ -13,7 +13,7 @@ import { RiskMeter } from './risk-meter';
 
 
 interface AnalysisDisplayProps {
-  analysis: AnalysisResult;
+  analysis?: AnalysisResult;
   tosDocument: string;
   userId: string;
   analysisId: string;
@@ -21,6 +21,9 @@ interface AnalysisDisplayProps {
 }
 
 export function AnalysisDisplay({ analysis, tosDocument, userId, analysisId, conversationHistory }: AnalysisDisplayProps) {
+  if (!analysis) {
+    return null; // or a loading/error state
+  }
   const { summary, keyClauses, riskGaps } = analysis;
 
   return (

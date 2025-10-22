@@ -45,7 +45,7 @@ interface AnalysisHistoryItem {
 export default function DashboardPage() {
   const [user, setUser] = useState<User | null>(null);
   const [analysis, setAnalysis] = useState<AnalysisResult | null>(null);
-  const [selectedHistory, setSelectedHistory] = useState<{ id: string; analysis: AnalysisResult; tos: string; } | null>(null);
+  const [selectedHistory, setSelectedHistory] = useState<AnalysisHistoryItem | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [tosContent, setTosContent] = useState('');
   const [analysisId, setAnalysisId] = useState<string | null>(null);
@@ -170,11 +170,7 @@ export default function DashboardPage() {
 
     if (docSnap.exists()) {
         const data = docSnap.data() as AnalysisHistoryItem;
-        setSelectedHistory({
-            id: item.id,
-            analysis: data.analysis,
-            tos: data.tos
-        });
+        setSelectedHistory(data);
         
         if (item.createdAt) {
           toast({ title: 'Loaded History', description: `Displaying analysis from ${formatDistanceToNow(item.createdAt.toDate())} ago.`});
