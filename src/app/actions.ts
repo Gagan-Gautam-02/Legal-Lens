@@ -275,3 +275,18 @@ export async function askLegalPathwayQuestion(
         return { error: 'An error occurred while getting the answer. Please try again.' };
     }
 }
+
+export async function getLegalPathwaysHistory(userId: string): Promise<any[]> {
+    const db = await getDb();
+    if (!db) {
+        console.error("Firestore is not initialized.");
+        return [];
+    }
+    try {
+        const snapshot = await db.collection('users').doc(userId).collection('legalPathways').orderBy('createdAt', 'desc').get();
+        return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    } catch (error) {
+        console.error('Error fetching legal pathways history:', error);
+        return [];
+    }
+}
