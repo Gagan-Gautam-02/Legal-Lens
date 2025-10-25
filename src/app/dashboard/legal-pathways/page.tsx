@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -21,7 +22,7 @@ import { useRouter } from 'next/navigation';
 import { LegalPathwayQuestionArea } from '@/components/app/legal-pathway-question-area';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-import { onSnapshot, collection, query, orderBy, getDoc, doc, Timestamp } from 'firebase/firestore';
+import { onSnapshot, collection, query, orderBy, getDoc, doc, type Timestamp } from 'firebase/firestore';
 import { formatDistanceToNow } from 'date-fns';
 
 const formSchema = z.object({
@@ -413,3 +414,5 @@ export default function LegalPathwaysPage() {
     </div>
   );
 }
+
+    

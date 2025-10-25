@@ -43,3 +43,5 @@ export function usePdfToText() {
 
   return { text, isLoading, error, extractText };
 }
+
+    

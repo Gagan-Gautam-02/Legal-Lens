@@ -22,7 +22,7 @@ import { Input } from '@/components/ui/input';
 import { usePdfToText } from '@/hooks/use-pdf-to-text';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { doc, setDoc, serverTimestamp, onSnapshot, collection, query, orderBy, Timestamp, getDoc } from 'firebase/firestore';
+import { doc, setDoc, serverTimestamp, onSnapshot, collection, query, orderBy, getDoc, type Timestamp } from 'firebase/firestore';
 import { formatDistanceToNow } from 'date-fns';
 
 
@@ -428,5 +428,7 @@ function PdfUploader({ form, disabled }: { form: UseFormReturn<z.infer<typeof fo
     </div>
   );
 }
+
+    
 
     
