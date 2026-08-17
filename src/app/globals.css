@@ -1,0 +1,72 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 220 20% 97%; /* Light Gray */
+    --foreground: 220 10% 20%;
+    --card: 220 20% 100% / 0.5; /* Semi-transparent white */
+    --card-foreground: 220 10% 20%;
+    --popover: 220 20% 100%;
+    --popover-foreground: 220 10% 20%;
+    --primary: 338 75% 52%; /* Bright Fuchsia/Deep Pink: #E02B6D */
+    --primary-foreground: 210 40% 98%;
+    --secondary: 241 45% 54%; /* Medium Blue/Violet: #5D5BBA */
+    --secondary-foreground: 210 40% 98%;
+    --muted: 220 15% 90%;
+    --muted-foreground: 220 10% 45%;
+    --accent: 351 83% 82%; /* Soft Rose Pink: #F8A8B4 */
+    --accent-foreground: 338 75% 22%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 351 83% 82% / 0.3; /* Transparent light pink border */
+    --input: 217 47% 70%; /* Sky Blue/Periwinkle: #8EADD5 */
+    --ring: 338 75% 52%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 224 71% 4%;
+    --foreground: 210 40% 98%;
+    --card: 220 10% 11% / 0.5; /* Semi-transparent dark */
+    --card-foreground: 210 40% 98%;
+    --popover: 224 71% 4%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 338 75% 52%; /* Bright Fuchsia/Deep Pink: #E02B6D */
+    --primary-foreground: 224 71% 4%;
+    --secondary: 241 45% 54%; /* Medium Blue/Violet: #5D5BBA */
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217 33% 17%;
+    --muted-foreground: 215 20% 65%;
+    --accent: 351 83% 82%; /* Soft Rose Pink: #F8A8B4 */
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 63% 31%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 351 83% 82% / 0.2; /* Transparent light pink border */
+    --input: 217 33% 17%;
+    --ring: 338 75% 52%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    background-image: linear-gradient(to right top, hsl(var(--primary) / 0.05), hsl(var(--secondary) / 0.1));
+  }
+  .dark body {
+    background-image: url('/BackDarkPageSec01.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+}
+
+@layer components {
+  .glass-card {
+    @apply bg-card/60 backdrop-blur-xl shadow-lg dark:shadow-black/20;
+  }
+}
